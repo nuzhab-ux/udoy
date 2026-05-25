@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Complete Guide to Real Estate</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:'Poppins',sans-serif;
+    background:#050816;
+    color:white;
+    overflow-x:hidden;
+}
+
+/* ===== Scrollbar ===== */
+
+::-webkit-scrollbar{
+    width:10px;
+}
+
+::-webkit-scrollbar-track{
+    background:#111;
+}
+
+::-webkit-scrollbar-thumb{
+    background:linear-gradient(#00f7ff,#0066ff);
+    border-radius:20px;
+}
+
+/* ===== Background ===== */
+
+body::before{
+    content:'';
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:
+    radial-gradient(circle at top left,#00ffff22,transparent 25%),
+    radial-gradient(circle at bottom right,#0066ff33,transparent 25%);
+    z-index:-2;
+}
+
+.particles{
+    position:fixed;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    z-index:-1;
+}
+
+.particles span{
+    position:absolute;
+    display:block;
+    width:5px;
+    height:5px;
+    background:#00ffff;
+    border-radius:50%;
+    animation:animate 15s linear infinite;
+    opacity:.3;
+}
+
+@keyframes animate{
+    0%{
+        transform:translateY(100vh) scale(0);
+    }
+    100%{
+        transform:translateY(-10vh) scale(1);
+    }
+}
+
+/* ===== Navbar ===== */
+
+nav{
+    position:fixed;
+    top:0;
+    width:100%;
+    display:flex;
+    justify-content:center;
+    gap:30px;
+    padding:20px;
+    background:rgba(0,0,0,.3);
+    backdrop-filter:blur(20px);
+    z-index:1000;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    font-size:14px;
+    transition:.3s;
+    position:relative;
+}
+
+nav a:hover{
+    color:#00f7ff;
+}
+
+nav a::after{
+    content:'';
+    position:absolute;
+    bottom:-5px;
+    left:0;
+    width:0%;
+    height:2px;
+    background:#00f7ff;
+    transition:.4s;
+}
+
+nav a:hover::after{
+    width:100%;
+}
+
+/* ===== Hero ===== */
+
+.hero{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:50px;
+}
+
+.hero-content{
+    max-width:1000px;
+}
+
+.hero h1{
+    font-size:5rem;
+    line-height:1.1;
+    background:linear-gradient(to right,#00ffff,#4f8cff,#ffffff);
+    -webkit-background-clip:text;
+    color:transparent;
+    animation:glow 3s infinite alternate;
+}
+
+@keyframes glow{
+    from{
+        text-shadow:0 0 10px #00ffff44;
+    }
+    to{
+        text-shadow:0 0 30px #00ffff;
+    }
+}
+
+.hero p{
+    margin-top:30px;
+    font-size:1.3rem;
+    color:#ddd;
+}
+
+.btn{
+    margin-top:40px;
+    display:inline-block;
+    padding:15px 40px;
+    border-radius:40px;
+    text-decoration:none;
+    color:white;
+    background:linear-gradient(45deg,#0066ff,#00ffff);
+    transition:.4s;
+    box-shadow:0 0 25px #00ffff66;
+}
+
+.btn:hover{
+    transform:translateY(-5px) scale(1.05);
+}
+
+/* ===== Sections ===== */
+
+section{
+    padding:100px 10%;
+}
+
+.section-title{
+    font-size:3rem;
+    margin-bottom:50px;
+    color:#00ffff;
+    text-align:center;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:30px;
+}
+
+/* ===== Cards ===== */
+
+.card{
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.1);
+    backdrop-filter:blur(20px);
+    border-radius:25px;
+    overflow:hidden;
+    transition:.5s;
+    position:relative;
+}
+
+.card:hover{
+    transform:translateY(-15px);
+    box-shadow:0 20px 40px rgba(0,255,255,.2);
+}
+
+.card img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+}
+
+.card-content{
+    padding:25px;
+}
+
+.card h3{
+    margin-bottom:15px;
+    color:#00ffff;
+    font-size:1.5rem;
+}
+
+.card p{
+    color:#ccc;
+    line-height:1.8;
+}
+
+/* ===== Timeline ===== */
+
+.timeline{
+    position:relative;
+    max-width:1000px;
+    margin:auto;
+}
+
+.timeline::after{
+    content:'';
+    position:absolute;
+    width:4px;
+    background:#00ffff;
+    top:0;
+    bottom:0;
+    left:50%;
+    margin-left:-2px;
+}
+
+.container{
+    padding:20px 40px;
+    position:relative;
+    width:50%;
+}
+
+.container.left{
+    left:0;
+}
+
+.container.right{
+    left:50%;
+}
+
+.content{
+    padding:25px;
+    background:rgba(255,255,255,.05);
+    border-radius:20px;
+    backdrop-filter:blur(20px);
+    border:1px solid rgba(255,255,255,.1);
+}
+
+.content h3{
+    color:#00ffff;
+    margin-bottom:10px;
+}
+
+/* ===== Formula ===== */
+
+.formula{
+    margin:40px auto;
+    max-width:900px;
+    text-align:center;
+    padding:40px;
+    border-radius:25px;
+    background:linear-gradient(135deg,#001d3d,#003566);
+    font-size:2rem;
+    box-shadow:0 0 30px #00ffff33;
+}
+
+/* ===== Tables ===== */
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:30px;
+}
+
+table th,
+table td{
+    border:1px solid rgba(255,255,255,.2);
+    padding:20px;
+    text-align:left;
+}
+
+table th{
+    background:#00ffff22;
+    color:#00ffff;
+}
+
+/* ===== Footer ===== */
+
+footer{
+    text-align:center;
+    padding:50px;
+    color:#aaa;
+    background:#000;
+}
+
+/* ===== Responsive ===== */
+
+@media(max-width:900px){
+
+.hero h1{
+    font-size:3rem;
+}
+
+.timeline::after{
+    left:31px;
+}
+
+.container{
+    width:100%;
+    padding-left:70px;
+    padding-right:25px;
+}
+
+.container.right{
+    left:0%;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="particles">
+<span style="left:10%;animation-duration:10s;"></span>
+<span style="left:20%;animation-duration:15s;"></span>
+<span style="left:35%;animation-duration:20s;"></span>
+<span style="left:50%;animation-duration:12s;"></span>
+<span style="left:65%;animation-duration:18s;"></span>
+<span style="left:80%;animation-duration:14s;"></span>
+<span style="left:90%;animation-duration:17s;"></span>
+</div>
+
+<!-- NAV -->
+
+<nav>
+<a href="#about">About</a>
+<a href="#types">Types</a>
+<a href="#process">Development</a>
+<a href="#investment">Investment</a>
+<a href="#future">Future</a>
+</nav>
+
+<!-- HERO -->
+
+<section class="hero">
+
+<div class="hero-content">
+
+<h1>COMPLETE GUIDE TO REAL ESTATE</h1>
+
+<p>
+From Absolute Beginner to Advanced Understanding
+</p>
+
+<a href="#about" class="btn">Explore Real Estate</a>
+
+</div>
+
+</section>
+
+<!-- ABOUT -->
+
+<section id="about">
+
+<h2 class="section-title">What Is Real Estate?</h2>
+
+<div class="formula">
+Real Estate = Land + Permanent Improvements
+</div>
+
+<div class="grid">
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=1200&auto=format&fit=crop">
+<div class="card-content">
+<h3>Land</h3>
+<p>
+The natural surface of earth including soil, water, and natural resources.
+</p>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200&auto=format&fit=crop">
+<div class="card-content">
+<h3>Buildings</h3>
+<p>
+Structures permanently attached to land such as houses, towers, malls and factories.
+</p>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1511818966892-d7d671e672a2?q=80&w=1200&auto=format&fit=crop">
+<div class="card-content">
+<h3>Infrastructure</h3>
+<p>
+Roads, bridges, utilities and urban systems supporting civilization and economic activity.
+</p>
+</div>
+</div>
+
+</div>
+
+</section>
+
+<!-- DIFFERENCE -->
+
+<section>
+
+<h2 class="section-title">Land vs Real Estate vs Real Property</h2>
+
+<table>
+
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td>Land</td>
+<td>Natural surface of earth</td>
+</tr>
+
+<tr>
+<td>Real Estate</td>
+<td>Land + buildings/improvements</td>
+</tr>
+
+<tr>
+<td>Real Property</td>
+<td>Real estate + legal ownership rights</td>
+</tr>
+
+</table>
+
+</section>
+
+<!-- TYPES -->
+
+<section id="types">
+
+<h2 class="section-title">Main Types of Real Estate</h2>
+
+<div class="grid">
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?q=80&w=1200&auto=format&fit=crop">
+<div class="card-content">
+<h3>Residential</h3>
+<p>
+Houses, apartments, villas, condominiums and living spaces.
+</p>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200&auto=format&fit=crop">
+<div class="card-content">
+<h3>Commercial</h3>
+<p>
+Office towers, hotels, shopping malls and retail business properties.
+</p>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=1200&auto=format&fit=crop">
+<div class="card-content">
+<h3>Industrial</h3>
+<p>
+Factories, logistics hubs, warehouses and production facilities.
+</p>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1200&auto=format&fit=crop">
+<div class="card-content">
+<h3>Agricultural</h3>
+<p>
+Crop farms, fisheries, dairy farms and agricultural land systems.
+</p>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1577495508326-19a1b3cf65b7?q=80&w=1200&auto=format&fit=crop">
+<div class="card-content">
+<h3>Special Purpose</h3>
+<p>
+Schools, airports, mosques, hospitals and stadiums.
+</p>
+</div>
+</div>
+
+</div>
+
+</section>
+
+<!-- INDUSTRY -->
+
+<section>
+
+<h2 class="section-title">Real Estate Industry Structure</h2>
+
+<div class="grid">
+
+<div class="card">
+<div class="card-content">
+<h3>Developers</h3>
+<p>Build and develop projects.</p>
+</div>
+</div>
+
+<div class="card">
+<div class="card-content">
+<h3>Investors</h3>
+<p>Invest capital for long-term profit.</p>
+</div>
+</div>
+
+<div class="card">
+<div class="card-content">
+<h3>Banks</h3>
+<p>Provide financing and mortgages.</p>
+</div>
+</div>
+
+<div class="card">
+<div class="card-content">
+<h3>Architects</h3>
+<p>Design buildings and urban systems.</p>
+</div>
+</div>
+
+<div class="card">
+<div class="card-content">
+<h3>Government</h3>
+<p>Create regulations and zoning policies.</p>
+</div>
+</div>
+
+<div class="card">
+<div class="card-content">
+<h3>Property Managers</h3>
+<p>Maintain and manage completed assets.</p>
+</div>
+</div>
+
+</div>
+
+</section>
+
+<!-- PROCESS -->
+
+<section id="process">
+
+<h2 class="section-title">Development Process</h2>
+
+<div class="timeline">
+
+<div class="container left">
+<div class="content">
+<h3>1. Land Acquisition</h3>
+<p>Purchase land for development.</p>
+</div>
+</div>
+
+<div class="container right">
+<div class="content">
+<h3>2. Feasibility Study</h3>
+<p>Analyze demand, profit and legal conditions.</p>
+</div>
+</div>
+
+<div class="container left">
+<div class="content">
+<h3>3. Design & Planning</h3>
+<p>Create layouts, architecture and utility systems.</p>
+</div>
+</div>
+
+<div class="container right">
+<div class="content">
+<h3>4. Financing</h3>
+<p>Arrange investment and capital structures.</p>
+</div>
+</div>
+
+<div class="container left">
+<div class="content">
+<h3>5. Construction</h3>
+<p>Build the physical structure and infrastructure.</p>
+</div>
+</div>
+
+<div class="container right">
+<div class="content">
+<h3>6. Marketing & Sales</h3>
+<p>Sell or rent the completed project.</p>
+</div>
+</div>
+
+</div>
+
+</section>
+
+<!-- ECONOMICS -->
+
+<section>
+
+<h2 class="section-title">Real Estate Economics</h2>
+
+<div class="formula">
+Price ∝ Demand / Supply
+</div>
+
+<div class="grid">
+
+<div class="card">
+<div class="card-content">
+<h3>Location</h3>
+<p>
+The most important factor in determining value and demand.
+</p>
+</div>
+</div>
+
+<div class="card">
+<div class="card-content">
+<h3>Interest Rates</h3>
+<p>
+Lower interest rates increase buyer demand.
+</p>
+</div>
+</div>
+
+<div class="card">
+<div class="card-content">
+<h3>Population Growth</h3>
+<p>
+More people create higher housing demand.
+</p>
+</div>
+</div>
+
+</div>
+
+</section>
+
+<!-- INVESTMENT -->
+
+<section id="investment">
+
+<h2 class="section-title">Investment Models</h2>
+
+<div class="grid">
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1560520031-3a4dc4e9de0c?q=80&w=1200&auto=format&fit=crop">
+<div class="card-content">
+<h3>Buy & Hold</h3>
+<p>
+Buy property and wait for appreciation over time.
+</p>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1200&auto=format&fit=crop">
+<div class="card-content">
+<h3>Rental Income</h3>
+<p>
+Generate monthly cash flow from tenants.
+</p>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=1200&auto=format&fit=crop">
+<div class="card-content">
+<h3>Flipping</h3>
+<p>
+Renovate undervalued property and resell for profit.
+</p>
+</div>
+</div>
+
+</div>
+
+</section>
+
+<!-- BANGLADESH -->
+
+<section>
+
+<h2 class="section-title">Real Estate in Bangladesh</h2>
+
+<div class="grid">
+
+<div class="card">
+<div class="card-content">
+<h3>Dhaka</h3>
+<p>
+The largest real estate and commercial hub in Bangladesh.
+</p>
+</div>
+</div>
+
+<div class="card">
+<div class="card-content">
+<h3>Chattogram</h3>
+<p>
+Major port city with industrial and logistics growth.
+</p>
+</div>
+</div>
+
+<div class="card">
+<div class="card-content">
+<h3>Mymensingh</h3>
+<p>
+Growing educational and urban development center.
+</p>
+</div>
+</div>
+
+</div>
+
+</section>
+
+<!-- FUTURE -->
+
+<section id="future">
+
+<h2 class="section-title">Future of Real Estate</h2>
+
+<div class="grid">
+
+<div class="card">
+<div class="card-content">
+<h3>Smart Cities</h3>
+<p>
+AI-powered urban ecosystems with digital infrastructure.
+</p>
+</div>
+</div>
+
+<div class="card">
+<div class="card-content">
+<h3>PropTech</h3>
+<p>
+Technology transforming property analysis and management.
+</p>
+</div>
+</div>
+
+<div class="card">
+<div class="card-content">
+<h3>Blockchain</h3>
+<p>
+Digital land registration and secure transactions.
+</p>
+</div>
+</div>
+
+<div class="card">
+<div class="card-content">
+<h3>Virtual Tours</h3>
+<p>
+Immersive online property viewing experiences.
+</p>
+</div>
+</div>
+
+</div>
+
+</section>
+
+<!-- FINAL -->
+
+<section>
+
+<h2 class="section-title">Final Understanding</h2>
+
+<div class="formula">
+Real Estate = Finance + Construction + Law + Economics + Human Psychology
+</div>
+
+<div style="text-align:center;max-width:1000px;margin:auto;font-size:1.2rem;line-height:2;color:#ccc;">
+
+<p>
+Real estate is not simply buying and selling buildings.
+</p>
+
+<br>
+
+<p>
+It is control of land, infrastructure, economic systems, urban civilization and long-term wealth creation.
+</p>
+
+<br>
+
+<p>
+The people who deeply understand real estate often shape cities, economies and societies.
+</p>
+
+</div>
+
+</section>
+
+<footer>
+
+<h2 style="color:#00ffff;margin-bottom:20px;">
+COMPLETE REAL ESTATE MASTERY
+</h2>
+
+<p>
+Designed with Advanced HTML • CSS • Interactive UI
+</p>
+
+</footer>
+
+<script>
+
+/* Reveal Animation */
+
+const cards = document.querySelectorAll('.card');
+
+window.addEventListener('scroll',()=>{
+
+cards.forEach(card=>{
+
+const top = card.getBoundingClientRect().top;
+
+if(top < window.innerHeight - 100){
+
+card.style.opacity='1';
+card.style.transform='translateY(0px)';
+
+}
+
+});
+
+});
+
+cards.forEach(card=>{
+
+card.style.opacity='0';
+card.style.transform='translateY(80px)';
+card.style.transition='1s';
+
+});
+
+</script>
+<!-- ========================= -->
+<!-- ADD THIS SECTION BEFORE FOOTER -->
+<!-- ========================= -->
+
+<!-- MEGA TOPICS SECTION -->
+
+<section id="mega-topics">
+
+<h2 class="section-title">Advanced Real Estate Power Topics</h2>
+
+<div class="grid">
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200&auto=format&fit=crop">
+<div class="card-content">
+<h3>Skyscraper Economics</h3>
+<p>
+Tall buildings represent economic power, land efficiency, prestige and urban dominance.
+Mega cities use skyscrapers to maximize land value.
+</p>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop">
+<div class="card-content">
+<h3>Smart Cities</h3>
+<p>
+AI, IoT, surveillance systems, automated transport and digital infrastructure are transforming future cities.
+</p>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=1200&auto=format&fit=crop">
+<div class="card-content">
+<h3>Luxury Real Estate</h3>
+<p>
+Ultra-high-net-worth individuals invest in luxury villas, penthouses and waterfront properties for status and wealth storage.
+</p>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1200&auto=format&fit=crop">
+<div class="card-content">
+<h3>Passive Income Systems</h3>
+<p>
+Rental portfolios create recurring monthly income and long-term financial freedom.
+</p>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1460317442991-0ec209397118?q=80&w=1200&auto=format&fit=crop">
+<div class="card-content">
+<h3>Global Mega Projects</h3>
+<p>
+Dubai, Singapore and China developed mega urban projects using strategic real estate planning.
+</p>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1200&auto=format&fit=crop">
+<div class="card-content">
+<h3>Construction Technology</h3>
+<p>
+Modern projects use drones, BIM software, AI planning and 3D printing technologies.
+</p>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1200&auto=format&fit=crop">
+<div class="card-content">
+<h3>Corporate Real Estate</h3>
+<p>
+Large corporations own office towers, industrial parks, malls and logistics systems.
+</p>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=1200&auto=format&fit=crop">
+<div class="card-content">
+<h3>Real Estate Leadership</h3>
+<p>
+The industry requires negotiation, strategic thinking, networking and organizational leadership.
+</p>
+</div>
+</div>
+
+</div>
+
+</section>
+
+<!-- FUTURE OF REAL ESTATE -->
+
+<section id="future-real-estate">
+
+<h2 class="section-title">Future of Global Real Estate</h2>
+
+<div class="timeline">
+
+<div class="container left">
+<div class="content">
+<h3>AI-Powered Property Analysis</h3>
+<p>
+Artificial intelligence predicts prices, market demand and investment opportunities.
+</p>
+</div>
+</div>
+
+<div class="container right">
+<div class="content">
+<h3>Blockchain Land Registry</h3>
+<p>
+Secure digital ownership systems reduce fraud and increase transparency.
+</p>
+</div>
+</div>
+
+<div class="container left">
+<div class="content">
+<h3>Virtual Reality Tours</h3>
+<p>
+People can explore properties remotely through immersive VR experiences.
+</p>
+</div>
+</div>
+
+<div class="container right">
+<div class="content">
+<h3>Green Sustainable Buildings</h3>
+<p>
+Eco-friendly smart buildings reduce environmental impact and energy consumption.
+</p>
+</div>
+</div>
+
+<div class="container left">
+<div class="content">
+<h3>Space & Floating Cities</h3>
+<p>
+Future civilizations may build floating cities and extraterrestrial real estate systems.
+</p>
+</div>
+</div>
+
+</div>
+
+</section>
+
+<!-- BILLIONAIRE SECTION -->
+
+<section id="billionaire-strategy">
+
+<h2 class="section-title">How Billionaires Use Real Estate</h2>
+
+<div class="formula">
+Land Control = Economic Power + Political Influence + Wealth Preservation
+</div>
+
+<div class="grid">
+
+<div class="card">
+<div class="card-content">
+<h3>Land Banking</h3>
+<p>
+Buying undeveloped land before urban expansion for massive future profits.
+</p>
+</div>
+</div>
+
+<div class="card">
+<div class="card-content">
+<h3>Debt Leverage</h3>
+<p>
+Using loans strategically to control billion-dollar assets with limited capital.
+</p>
+</div>
+</div>
+
+<div class="card">
+<div class="card-content">
+<h3>Commercial Assets</h3>
+<p>
+Office towers, malls and logistics hubs generate enormous cash flow.
+</p>
+</div>
+</div>
+
+<div class="card">
+<div class="card-content">
+<h3>Urban Influence</h3>
+<p>
+Large developers influence transportation, zoning and city growth.
+</p>
+</div>
+</div>
+
+</div>
+
+</section>
+
+<!-- PRESENTATION SECTION -->
+
+<section id="presenter">
+
+<h2 class="section-title">Presented By</h2>
+
+<div style="
+max-width:1100px;
+margin:auto;
+background:rgba(255,255,255,.05);
+border:1px solid rgba(255,255,255,.1);
+backdrop-filter:blur(25px);
+border-radius:35px;
+padding:50px;
+display:flex;
+flex-wrap:wrap;
+gap:40px;
+align-items:center;
+justify-content:center;
+box-shadow:0 0 40px rgba(0,255,255,.15);
+">
+
+<div style="flex:1;min-width:300px;text-align:center;">
+
+<img 
+src="https://scontent.fdac202-1.fna.fbcdn.net/v/t39.30808-6/707555814_122131081815012362_4351342836634925222_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=QGcr1dHnmzEQ7kNvwGVBbSe&_nc_oc=AdrckLHY0XyT2SPV54wZacgwiU2CoxFWLBdgcn1PsD8lCwvyrIdh3Fovoj04tKe9w-M&_nc_zt=23&_nc_ht=scontent.fdac202-1.fna&_nc_gid=Zaaq5QpQ2sZCxFlOXyd_eQ&_nc_ss=7b2a8&oh=00_Af6nNdqwTa83NYITcrLXJlwRJTyvPvty5q_E5Mh_8WkifA&oe=6A19B6B5"
+style="
+width:280px;
+height:280px;
+object-fit:cover;
+border-radius:50%;
+border:6px solid #00ffff;
+box-shadow:0 0 40px #00ffff88;
+"
+>
+
+</div>
+
+<div style="flex:1;min-width:300px;">
+
+<h1 style="
+font-size:3rem;
+margin-bottom:20px;
+background:linear-gradient(to right,#00ffff,#ffffff);
+-webkit-background-clip:text;
+color:transparent;
+">
+Nuzhab Hossain Udoy
+</h1>
+
+<h3 style="color:#00ffff;margin-bottom:15px;">
+B.R.E. Student
+</h3>
+
+<p style="font-size:1.1rem;line-height:2;color:#ddd;">
+
+Department of Real Estate<br>
+Daffodil International University<br><br>
+
+ID: 262-27-025<br><br>
+
+Focused on Real Estate Development, Urban Systems, Business Strategy & Future Smart Cities.
+</p>
+
+<br>
+
+<a href="https://sites.google.com/view/nhudoy/home" target="_blank" class="btn">
+Visit Personal Website
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- FINAL POWER QUOTE -->
+
+<section>
+
+<div class="formula">
+"Those Who Control Strategic Land Often Shape The Future Of Civilizations."
+</div>
+
+</section>
+
+<!-- UPDATE FOOTER -->
+
+<footer>
+
+<h2 style="color:#00ffff;margin-bottom:20px;">
+ADVANCED REAL ESTATE PRESENTATION
+</h2>
+
+<p style="margin-bottom:10px;">
+Presented by Nuzhab Hossain Udoy
+</p>
+
+<p style="margin-bottom:10px;">
+Department of Real Estate • Daffodil International University
+</p>
+
+<p style="color:#00ffff;">
+262-27-025
+</p>
+
+</footer>
+</body>
+</html>
