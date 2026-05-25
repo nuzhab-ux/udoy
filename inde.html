@@ -1,0 +1,1818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nuzhab Hossain Udoy | Futuristic Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Exo+2:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,300&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   CSS VARIABLES — MODIFY COLORS HERE
+   ============================================================ */
+:root {
+  --bg-void: #020409;
+  --bg-deep: #060d1a;
+  --bg-mid: #0a1628;
+  --bg-card: rgba(8, 20, 45, 0.7);
+  --cyan: #00f5ff;
+  --cyan-dim: #00b8cc;
+  --cyan-glow: rgba(0,245,255,0.15);
+  --blue: #0066ff;
+  --blue-bright: #1a8cff;
+  --purple: #8b00ff;
+  --purple-mid: #6600cc;
+  --gold: #f0b429;
+  --gold-dim: rgba(240,180,41,0.2);
+  --white: #e8f4ff;
+  --white-dim: rgba(232,244,255,0.6);
+  --white-faint: rgba(232,244,255,0.12);
+  --glass: rgba(0,245,255,0.04);
+  --glass-border: rgba(0,245,255,0.12);
+  --glass-border-hot: rgba(0,245,255,0.4);
+  --font-display: 'Orbitron', monospace;
+  --font-ui: 'Rajdhani', sans-serif;
+  --font-body: 'Exo 2', sans-serif;
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
+body {
+  background: var(--bg-void);
+  color: var(--white);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  cursor: none;
+}
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+
+/* ============================================================
+   CUSTOM CURSOR
+   ============================================================ */
+#cursor-dot {
+  position: fixed; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--cyan); pointer-events: none; z-index: 99999;
+  transform: translate(-50%,-50%);
+  box-shadow: 0 0 10px var(--cyan), 0 0 20px var(--cyan);
+  transition: transform 0.1s;
+}
+#cursor-ring {
+  position: fixed; width: 36px; height: 36px; border-radius: 50%;
+  border: 1px solid rgba(0,245,255,0.5); pointer-events: none; z-index: 99998;
+  transform: translate(-50%,-50%);
+  transition: all 0.15s ease;
+}
+#cursor-ring.hovering {
+  width: 56px; height: 56px;
+  border-color: var(--cyan);
+  background: rgba(0,245,255,0.05);
+}
+
+/* ============================================================
+   SCROLL PROGRESS BAR
+   ============================================================ */
+#scroll-bar {
+  position: fixed; top: 0; left: 0; height: 2px;
+  background: linear-gradient(90deg, var(--purple), var(--cyan));
+  z-index: 99997; width: 0%;
+  box-shadow: 0 0 8px var(--cyan);
+  transition: width 0.1s;
+}
+
+/* ============================================================
+   PARTICLE CANVAS
+   ============================================================ */
+#particle-canvas {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 0;
+}
+
+/* ============================================================
+   MOUSE GLOW
+   ============================================================ */
+#mouse-glow {
+  position: fixed; width: 400px; height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,245,255,0.06) 0%, transparent 70%);
+  pointer-events: none; z-index: 1;
+  transform: translate(-50%,-50%);
+  transition: transform 0.3s ease;
+}
+
+/* ============================================================
+   LOADING SCREEN
+   ============================================================ */
+#loader {
+  position: fixed; inset: 0; background: var(--bg-void);
+  z-index: 100000; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+#loader.hidden { opacity: 0; visibility: hidden; }
+.loader-logo {
+  font-family: var(--font-display); font-size: 1.1rem;
+  color: var(--cyan); letter-spacing: 0.4em;
+  margin-bottom: 2rem; text-transform: uppercase;
+  animation: pulse-glow 1.5s ease-in-out infinite;
+}
+.loader-bar-track {
+  width: 300px; height: 2px; background: var(--white-faint);
+  position: relative; overflow: hidden;
+}
+.loader-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--purple), var(--cyan));
+  box-shadow: 0 0 8px var(--cyan);
+  animation: loader-fill 2.2s ease forwards;
+}
+.loader-pct {
+  font-family: var(--font-display); font-size: 0.7rem;
+  color: var(--cyan-dim); margin-top: 1rem; letter-spacing: 0.2em;
+}
+@keyframes loader-fill { from { width:0 } to { width:100% } }
+@keyframes pulse-glow {
+  0%,100% { text-shadow: 0 0 10px var(--cyan); }
+  50% { text-shadow: 0 0 30px var(--cyan), 0 0 60px var(--cyan); }
+}
+
+/* ============================================================
+   NAVBAR
+   ============================================================ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 9000;
+  padding: 0 2rem; height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(2,4,9,0.7);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--glass-border);
+  transition: all 0.3s;
+}
+nav.scrolled {
+  background: rgba(2,4,9,0.92);
+  border-bottom-color: rgba(0,245,255,0.2);
+  box-shadow: 0 4px 30px rgba(0,245,255,0.05);
+}
+.nav-logo {
+  font-family: var(--font-display); font-size: 0.9rem;
+  color: var(--cyan); letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+.nav-logo span { color: var(--white-dim); }
+.nav-links {
+  display: flex; gap: 0.2rem; list-style: none;
+}
+.nav-links a {
+  font-family: var(--font-ui); font-size: 0.8rem; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--white-dim);
+  padding: 0.4rem 0.8rem; position: relative;
+  transition: color 0.3s;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: 0; left: 50%; right: 50%;
+  height: 1px; background: var(--cyan);
+  transition: all 0.3s; box-shadow: 0 0 6px var(--cyan);
+}
+.nav-links a:hover, .nav-links a.active { color: var(--cyan); }
+.nav-links a:hover::after, .nav-links a.active::after { left: 0.8rem; right: 0.8rem; }
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+.hamburger span { display: block; width: 24px; height: 2px; background: var(--cyan); transition: all 0.3s; }
+.mobile-menu {
+  display: none; position: fixed; top: 64px; left: 0; right: 0;
+  background: rgba(2,4,9,0.97); border-bottom: 1px solid var(--glass-border);
+  backdrop-filter: blur(20px); z-index: 8999;
+  flex-direction: column; padding: 1.5rem 2rem; gap: 0.5rem;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  font-family: var(--font-ui); font-size: 1rem; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--white-dim);
+  padding: 0.5rem 0; border-bottom: 1px solid var(--glass-border);
+  transition: color 0.3s;
+}
+.mobile-menu a:hover { color: var(--cyan); }
+
+/* ============================================================
+   SHARED SECTION STYLES
+   ============================================================ */
+section { position: relative; z-index: 10; }
+.section-inner {
+  max-width: 1200px; margin: 0 auto; padding: 0 2rem;
+}
+.section-header {
+  text-align: center; margin-bottom: 4rem;
+}
+.section-tag {
+  display: inline-block;
+  font-family: var(--font-display); font-size: 0.65rem;
+  color: var(--cyan); letter-spacing: 0.35em; text-transform: uppercase;
+  border: 1px solid var(--glass-border); padding: 0.35rem 1rem;
+  margin-bottom: 1.2rem;
+  background: var(--cyan-glow);
+}
+.section-title {
+  font-family: var(--font-display); font-size: clamp(1.5rem, 3.5vw, 2.8rem);
+  font-weight: 700; line-height: 1.15;
+  background: linear-gradient(135deg, var(--white) 40%, var(--cyan));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  margin-bottom: 1rem;
+}
+.section-subtitle {
+  font-family: var(--font-body); font-size: 1rem;
+  color: var(--white-dim); max-width: 600px; margin: 0 auto;
+  line-height: 1.7;
+}
+.reveal {
+  opacity: 0; transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* Glass card */
+.glass-card {
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.glass-card:hover {
+  border-color: var(--glass-border-hot);
+  box-shadow: 0 0 30px rgba(0,245,255,0.08), inset 0 0 20px rgba(0,245,255,0.03);
+}
+
+/* ============================================================
+   HERO SECTION
+   ============================================================ */
+#home {
+  min-height: 100vh; display: flex; align-items: center;
+  padding: 80px 0 40px;
+  position: relative; overflow: hidden;
+}
+.hero-inner {
+  max-width: 1200px; margin: 0 auto; padding: 0 2rem;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
+  align-items: center; width: 100%;
+}
+.hero-left { position: relative; z-index: 2; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: var(--font-display); font-size: 0.6rem;
+  color: var(--cyan); letter-spacing: 0.3em;
+  border: 1px solid rgba(0,245,255,0.25);
+  padding: 0.4rem 1rem; margin-bottom: 1.5rem;
+  background: rgba(0,245,255,0.04); border-radius: 4px;
+  animation: badge-pulse 3s ease-in-out infinite;
+}
+.hero-badge::before { content: '●'; animation: blink 1.5s ease-in-out infinite; }
+@keyframes badge-pulse { 0%,100%{box-shadow:0 0 10px rgba(0,245,255,0.1)} 50%{box-shadow:0 0 20px rgba(0,245,255,0.25)} }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+.hero-name {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(1.8rem, 4vw, 3.4rem);
+  line-height: 1.1; margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, #fff 0%, var(--cyan) 60%, var(--blue-bright) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  text-shadow: none;
+  animation: name-appear 1s ease forwards;
+}
+@keyframes name-appear { from {opacity:0;transform:translateX(-30px)} to {opacity:1;transform:translateX(0)} }
+
+.hero-uni {
+  font-family: var(--font-ui); font-size: 0.85rem; font-weight: 400;
+  color: var(--white-dim); letter-spacing: 0.08em;
+  margin-bottom: 1.5rem;
+  animation: fadein 1s 0.3s ease both;
+}
+@keyframes fadein { from{opacity:0} to{opacity:1} }
+
+.typing-wrapper {
+  font-family: var(--font-ui); font-size: 1.2rem; font-weight: 600;
+  color: var(--cyan); letter-spacing: 0.05em; height: 2rem;
+  display: flex; align-items: center; gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+.typing-prefix { color: var(--white-dim); font-weight: 300; font-size: 0.9rem; }
+#typed-text { border-right: 2px solid var(--cyan); padding-right: 3px; }
+
+.hero-desc {
+  font-family: var(--font-body); font-size: 0.95rem;
+  color: var(--white-dim); line-height: 1.8; max-width: 500px;
+  margin-bottom: 2.5rem;
+  animation: fadein 1s 0.6s ease both;
+}
+
+.hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+.btn-primary {
+  font-family: var(--font-display); font-size: 0.7rem; letter-spacing: 0.2em;
+  text-transform: uppercase; padding: 0.85rem 2rem;
+  background: linear-gradient(135deg, var(--blue), var(--cyan));
+  border: none; color: var(--bg-void); font-weight: 700;
+  clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+  cursor: pointer; transition: all 0.3s;
+  box-shadow: 0 0 20px rgba(0,245,255,0.3);
+}
+.btn-primary:hover { box-shadow: 0 0 40px rgba(0,245,255,0.5); transform: translateY(-2px); }
+.btn-ghost {
+  font-family: var(--font-display); font-size: 0.7rem; letter-spacing: 0.2em;
+  text-transform: uppercase; padding: 0.85rem 2rem;
+  background: transparent; border: 1px solid var(--glass-border-hot); color: var(--cyan);
+  clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+  cursor: pointer; transition: all 0.3s;
+}
+.btn-ghost:hover { background: rgba(0,245,255,0.08); transform: translateY(-2px); }
+
+/* Code snippet panel */
+.hero-code {
+  background: rgba(2,8,20,0.9); border: 1px solid rgba(0,245,255,0.15);
+  border-radius: 12px; padding: 1.5rem; font-family: 'Courier New', monospace;
+  font-size: 0.78rem; line-height: 1.8; overflow: hidden;
+  position: relative; max-height: 420px;
+  animation: fadein 1s 0.5s ease both;
+}
+.hero-code::before {
+  content: '●  ●  ●'; position: absolute; top: 0.8rem; left: 1rem;
+  font-size: 0.65rem; color: rgba(255,255,255,0.3); letter-spacing: 0.3em;
+}
+.code-line { display: block; padding: 0 0; }
+.c-keyword { color: #cc99ff; }
+.c-fn { color: #66d9ff; }
+.c-str { color: #99ff88; }
+.c-num { color: #ffaa55; }
+.c-comment { color: #556677; }
+.c-var { color: var(--cyan); }
+.c-prop { color: #ff88cc; }
+.code-blink { animation: blink 1.2s ease-in-out infinite; }
+
+/* Profile section */
+.hero-profile-area {
+  display: flex; flex-direction: column; align-items: center;
+  position: relative; z-index: 2;
+}
+.profile-orbit {
+  position: relative; width: 280px; height: 280px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 1.5rem;
+}
+.orbit-ring {
+  position: absolute; border-radius: 50%;
+  border: 1px solid; animation: spin linear infinite;
+}
+.orbit-ring-1 {
+  width: 110%; height: 110%;
+  border-color: rgba(0,245,255,0.2);
+  animation-duration: 12s;
+}
+.orbit-ring-2 {
+  width: 130%; height: 130%;
+  border-color: rgba(102,0,204,0.3);
+  border-style: dashed;
+  animation-duration: 20s; animation-direction: reverse;
+}
+.orbit-ring-3 {
+  width: 150%; height: 150%;
+  border-color: rgba(0,102,255,0.15);
+  animation-duration: 30s;
+}
+@keyframes spin { from{transform:rotate(0)} to{transform:rotate(360deg)} }
+
+.orbit-dot {
+  position: absolute; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--cyan); box-shadow: 0 0 10px var(--cyan);
+  top: 0; left: 50%; transform: translateX(-50%);
+}
+.profile-img-wrap {
+  width: 220px; height: 220px; border-radius: 50%; overflow: hidden;
+  border: 2px solid rgba(0,245,255,0.4);
+  box-shadow: 0 0 0 4px rgba(0,245,255,0.08), 0 0 60px rgba(0,245,255,0.2), 0 0 120px rgba(102,0,204,0.1);
+  position: relative; z-index: 2;
+  transition: box-shadow 0.3s;
+}
+.profile-img-wrap:hover {
+  box-shadow: 0 0 0 4px rgba(0,245,255,0.2), 0 0 80px rgba(0,245,255,0.35), 0 0 150px rgba(102,0,204,0.2);
+}
+/* NOTE: Replace src with your own profile image URL */
+.profile-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+
+.profile-stats {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem;
+  width: 100%;
+}
+.pstat {
+  background: var(--bg-card); border: 1px solid var(--glass-border);
+  border-radius: 10px; padding: 0.8rem; text-align: center;
+  backdrop-filter: blur(12px);
+  transition: border-color 0.3s, transform 0.3s;
+}
+.pstat:hover { border-color: var(--glass-border-hot); transform: translateY(-3px); }
+.pstat-num {
+  font-family: var(--font-display); font-size: 1.3rem; color: var(--cyan);
+  font-weight: 700;
+}
+.pstat-label {
+  font-family: var(--font-ui); font-size: 0.65rem; color: var(--white-dim);
+  letter-spacing: 0.1em; text-transform: uppercase; margin-top: 0.2rem;
+}
+
+/* ============================================================
+   ABOUT SECTION
+   ============================================================ */
+#about {
+  padding: 8rem 0;
+  background: linear-gradient(180deg, var(--bg-void) 0%, var(--bg-deep) 50%, var(--bg-void) 100%);
+}
+.about-grid {
+  display: grid; grid-template-columns: 1fr 1.3fr; gap: 4rem; align-items: start;
+}
+.about-visual { position: relative; }
+.about-img-frame {
+  position: relative; border-radius: 16px; overflow: hidden;
+  border: 1px solid var(--glass-border);
+}
+.about-img-frame img {
+  width: 100%; filter: brightness(0.85) saturate(0.9);
+  transition: filter 0.4s;
+}
+.about-img-frame:hover img { filter: brightness(1) saturate(1.1); }
+.about-img-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(0,102,255,0.15), rgba(0,245,255,0.05));
+  pointer-events: none;
+}
+
+.about-tags {
+  display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem;
+}
+.atag {
+  font-family: var(--font-display); font-size: 0.6rem; letter-spacing: 0.15em;
+  padding: 0.3rem 0.7rem; border: 1px solid var(--glass-border);
+  color: var(--cyan-dim); text-transform: uppercase;
+  border-radius: 3px; background: var(--cyan-glow);
+  transition: all 0.3s;
+}
+.atag:hover { border-color: var(--cyan); color: var(--cyan); }
+
+.about-text {
+  font-family: var(--font-body); font-size: 0.95rem;
+  color: var(--white-dim); line-height: 1.9; margin-bottom: 1.5rem;
+}
+.about-text strong { color: var(--cyan); font-weight: 600; }
+
+.stats-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; margin-top: 2rem; }
+.stat-box {
+  glass-card; background: var(--bg-card); border: 1px solid var(--glass-border);
+  border-radius: 12px; padding: 1.2rem; text-align: center; backdrop-filter: blur(12px);
+  transition: all 0.3s;
+}
+.stat-box:hover { border-color: var(--glass-border-hot); transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0,245,255,0.06); }
+.stat-num {
+  font-family: var(--font-display); font-size: 2rem; font-weight: 800;
+  background: linear-gradient(135deg, var(--cyan), var(--blue-bright));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.stat-label { font-family: var(--font-ui); font-size: 0.7rem; color: var(--white-dim); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 0.3rem; }
+
+.timeline { margin-top: 2rem; position: relative; padding-left: 1.5rem; }
+.timeline::before { content:''; position:absolute; left:0; top:0; bottom:0; width:1px; background:linear-gradient(180deg, var(--cyan), transparent); }
+.timeline-item { position: relative; margin-bottom: 1.8rem; }
+.timeline-item::before {
+  content:''; position:absolute; left:-1.5rem; top:0.4rem;
+  width:8px; height:8px; border-radius:50%; background:var(--cyan);
+  box-shadow:0 0 8px var(--cyan); transform:translateX(-3.5px);
+}
+.tl-year { font-family:var(--font-display); font-size:0.65rem; color:var(--cyan); letter-spacing:0.2em; margin-bottom:0.3rem; }
+.tl-text { font-family:var(--font-body); font-size:0.9rem; color:var(--white-dim); line-height:1.6; }
+
+/* ============================================================
+   BUSINESS SECTION
+   ============================================================ */
+#business { padding: 8rem 0; }
+.biz-grid {
+  display: grid; grid-template-columns: repeat(4,1fr); gap: 1.5rem;
+}
+.biz-card {
+  background: var(--bg-card); border: 1px solid var(--glass-border);
+  border-radius: 16px; padding: 2rem 1.5rem; position: relative; overflow: hidden;
+  cursor: pointer; backdrop-filter: blur(20px);
+  transition: all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
+  transform-style: preserve-3d;
+}
+.biz-card::before {
+  content:''; position:absolute; inset:0; opacity:0;
+  background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(0,245,255,0.1) 0%, transparent 60%);
+  transition: opacity 0.3s;
+}
+.biz-card:hover::before { opacity: 1; }
+.biz-card:hover {
+  border-color: rgba(0,245,255,0.3); transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 60px rgba(0,245,255,0.1), 0 0 0 1px rgba(0,245,255,0.15);
+}
+.biz-icon {
+  font-size: 2.5rem; margin-bottom: 1rem; display: block;
+  filter: drop-shadow(0 0 8px rgba(0,245,255,0.4));
+}
+.biz-title { font-family:var(--font-ui); font-size:1rem; font-weight:600; color:var(--white); margin-bottom:0.5rem; letter-spacing:0.05em; }
+.biz-desc { font-family:var(--font-body); font-size:0.8rem; color:var(--white-dim); line-height:1.7; }
+.biz-card-glow {
+  position:absolute; bottom:-30px; right:-30px; width:80px; height:80px;
+  border-radius:50%;
+  background: radial-gradient(circle, rgba(0,245,255,0.08) 0%, transparent 70%);
+  transition: transform 0.4s;
+}
+.biz-card:hover .biz-card-glow { transform: scale(2); }
+
+/* ============================================================
+   STUDY SECTION
+   ============================================================ */
+#study { padding: 8rem 0; background: linear-gradient(180deg, var(--bg-void) 0%, var(--bg-deep) 50%, var(--bg-void) 100%); }
+.study-tabs {
+  display: flex; gap: 1rem; justify-content: center; margin-bottom: 3rem;
+}
+.study-tab {
+  font-family:var(--font-display); font-size:0.65rem; letter-spacing:0.2em;
+  text-transform:uppercase; padding:0.6rem 1.5rem;
+  border:1px solid var(--glass-border); background:transparent; color:var(--white-dim);
+  cursor:pointer; transition:all 0.3s; clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);
+}
+.study-tab.active, .study-tab:hover { border-color:var(--cyan); color:var(--cyan); background:var(--cyan-glow); box-shadow:0 0 15px rgba(0,245,255,0.1); }
+.study-panel { display:none; }
+.study-panel.active { display:block; }
+.study-cards-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; }
+.study-card {
+  background:var(--bg-card); border:1px solid var(--glass-border);
+  border-radius:14px; padding:1.5rem; cursor:pointer; backdrop-filter:blur(16px);
+  transition:all 0.3s; position:relative; overflow:hidden;
+}
+.study-card:hover { border-color:rgba(0,245,255,0.3); transform:translateY(-4px); box-shadow:0 12px 40px rgba(0,245,255,0.08); }
+.study-card-icon { font-size:1.8rem; margin-bottom:0.8rem; }
+.study-card-title { font-family:var(--font-ui); font-size:1rem; font-weight:600; color:var(--white); margin-bottom:0.5rem; }
+.study-card-desc { font-family:var(--font-body); font-size:0.82rem; color:var(--white-dim); line-height:1.7; }
+.progress-label { font-family:var(--font-ui); font-size:0.7rem; color:var(--white-dim); margin-top:1rem; margin-bottom:0.3rem; display:flex; justify-content:space-between; }
+.progress-bar { width:100%; height:3px; background:var(--white-faint); border-radius:3px; overflow:hidden; }
+.progress-fill { height:100%; background:linear-gradient(90deg,var(--blue),var(--cyan)); border-radius:3px; transition:width 1.5s ease; }
+
+/* ============================================================
+   COMPLEX ORGANIZATION SECTION
+   ============================================================ */
+#complex-org { padding: 8rem 0; }
+.org-layout { display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:start; }
+.org-diagram { position:relative; background:var(--bg-card); border:1px solid var(--glass-border); border-radius:20px; padding:2.5rem; backdrop-filter:blur(20px); }
+.org-title-bar { font-family:var(--font-display); font-size:0.75rem; color:var(--cyan); letter-spacing:0.2em; text-transform:uppercase; margin-bottom:2rem; text-align:center; }
+
+/* SVG org chart is drawn via JS */
+#org-svg { width:100%; height:300px; }
+.org-concepts { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:2rem; }
+.org-concept {
+  background:rgba(0,245,255,0.04); border:1px solid var(--glass-border);
+  border-radius:10px; padding:1rem; transition:all 0.3s;
+}
+.org-concept:hover { border-color:rgba(0,245,255,0.3); background:rgba(0,245,255,0.07); }
+.org-concept-title { font-family:var(--font-ui); font-size:0.85rem; font-weight:600; color:var(--cyan); margin-bottom:0.3rem; }
+.org-concept-text { font-family:var(--font-body); font-size:0.8rem; color:var(--white-dim); line-height:1.6; }
+
+/* ============================================================
+   KNOWLEDGE ARCHITECTURE SECTION
+   ============================================================ */
+#knowledge { padding: 8rem 0; background: linear-gradient(180deg, var(--bg-void) 0%, var(--bg-deep) 50%, var(--bg-void) 100%); }
+.ka-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2rem; margin-top:3rem; }
+.ka-card {
+  background:var(--bg-card); border:1px solid var(--glass-border);
+  border-radius:16px; padding:2rem; backdrop-filter:blur(20px);
+  position:relative; overflow:hidden; transition:all 0.4s;
+}
+.ka-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg, transparent, var(--cyan), transparent); opacity:0;
+  transition: opacity 0.3s;
+}
+.ka-card:hover::before { opacity:1; }
+.ka-card:hover { border-color:rgba(0,245,255,0.25); transform:translateY(-6px); box-shadow:0 20px 50px rgba(0,245,255,0.07); }
+.ka-num { font-family:var(--font-display); font-size:2.5rem; font-weight:800; color:rgba(0,245,255,0.12); position:absolute; top:1rem; right:1.5rem; }
+.ka-icon { font-size:2rem; margin-bottom:1rem; }
+.ka-title { font-family:var(--font-ui); font-size:1.1rem; font-weight:600; color:var(--white); margin-bottom:0.7rem; }
+.ka-text { font-family:var(--font-body); font-size:0.85rem; color:var(--white-dim); line-height:1.8; }
+.ka-link { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1rem; font-family:var(--font-display); font-size:0.6rem; letter-spacing:0.2em; color:var(--cyan); text-transform:uppercase; transition:gap 0.3s; }
+.ka-link:hover { gap:0.8rem; }
+
+/* ============================================================
+   ISLAMIC ECONOMY SECTION
+   ============================================================ */
+#islamic-economy { padding: 8rem 0; }
+.islamic-inner { position:relative; }
+.islamic-bg-pattern {
+  position:absolute; inset:0; opacity:0.04; pointer-events:none;
+  background-image: repeating-conic-gradient(rgba(240,180,41,0.5) 0deg 10deg, transparent 10deg 30deg, rgba(240,180,41,0.2) 30deg 40deg, transparent 40deg 60deg);
+  background-size: 80px 80px;
+}
+.islamic-grid { display:grid; grid-template-columns:1.2fr 1fr; gap:4rem; align-items:start; position:relative; z-index:1; }
+.islamic-pillars { display:flex; flex-direction:column; gap:1.5rem; }
+.pillar {
+  display:flex; gap:1.5rem; align-items:flex-start;
+  background:var(--bg-card); border:1px solid rgba(240,180,41,0.15);
+  border-radius:14px; padding:1.5rem; backdrop-filter:blur(16px);
+  transition:all 0.3s;
+}
+.pillar:hover { border-color:rgba(240,180,41,0.35); transform:translateX(6px); box-shadow:0 0 20px rgba(240,180,41,0.05); }
+.pillar-num {
+  font-family:var(--font-display); font-size:1.8rem; font-weight:800;
+  color:var(--gold); min-width:48px; line-height:1;
+  text-shadow:0 0 20px rgba(240,180,41,0.5);
+}
+.pillar-title { font-family:var(--font-ui); font-size:1rem; font-weight:600; color:var(--white); margin-bottom:0.4rem; }
+.pillar-text { font-family:var(--font-body); font-size:0.85rem; color:var(--white-dim); line-height:1.7; }
+
+.islamic-flow { background:var(--bg-card); border:1px solid rgba(240,180,41,0.15); border-radius:20px; padding:2rem; backdrop-filter:blur(20px); }
+.flow-title { font-family:var(--font-display); font-size:0.7rem; letter-spacing:0.25em; color:var(--gold); text-transform:uppercase; margin-bottom:1.5rem; text-align:center; }
+.flow-nodes { display:flex; flex-direction:column; gap:0; }
+.flow-node {
+  display:flex; align-items:center; gap:1rem;
+  padding:0.9rem 1rem; border-left:2px solid rgba(240,180,41,0.2);
+  margin-left:1rem; position:relative; transition:all 0.3s;
+}
+.flow-node:hover { border-left-color:var(--gold); background:var(--gold-dim); border-radius:0 8px 8px 0; }
+.flow-node::before { content:'◆'; position:absolute; left:-5px; color:var(--gold); font-size:0.5rem; }
+.flow-node-label { font-family:var(--font-ui); font-size:0.9rem; font-weight:500; color:var(--white); }
+.flow-node-sub { font-family:var(--font-body); font-size:0.75rem; color:var(--white-dim); }
+
+/* ============================================================
+   VISION SECTION
+   ============================================================ */
+#vision { padding: 8rem 0; position:relative; overflow:hidden; }
+.vision-bg {
+  position:absolute; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(ellipse 60% 40% at 50% 0%, rgba(102,0,204,0.2) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 30% at 20% 50%, rgba(0,102,255,0.1) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 80% 50%, rgba(0,245,255,0.08) 0%, transparent 60%);
+}
+.vision-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-bottom:4rem; }
+.vision-card {
+  background:var(--bg-card); border:1px solid var(--glass-border);
+  border-radius:16px; padding:2rem; backdrop-filter:blur(20px);
+  position:relative; overflow:hidden; transition:all 0.4s;
+}
+.vision-card:hover { border-color:rgba(102,0,204,0.4); transform:translateY(-6px); box-shadow:0 20px 60px rgba(102,0,204,0.1); }
+.vision-card::after {
+  content:''; position:absolute; bottom:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg, transparent, var(--purple), transparent);
+  opacity:0; transition:opacity 0.3s;
+}
+.vision-card:hover::after { opacity:1; }
+.vision-icon { font-size:2.2rem; margin-bottom:1rem; }
+.vision-title { font-family:var(--font-ui); font-size:1.05rem; font-weight:600; color:var(--white); margin-bottom:0.6rem; }
+.vision-text { font-family:var(--font-body); font-size:0.85rem; color:var(--white-dim); line-height:1.8; }
+.vision-year { font-family:var(--font-display); font-size:0.6rem; color:var(--purple); letter-spacing:0.2em; margin-top:1rem; }
+
+.vision-timeline { position:relative; padding: 2rem 0; }
+.vision-timeline::before { content:''; position:absolute; top:50%; left:0; right:0; height:1px; background:linear-gradient(90deg, transparent, var(--glass-border-hot), transparent); }
+.vtl-items { display:flex; justify-content:space-between; position:relative; z-index:1; }
+.vtl-item { display:flex; flex-direction:column; align-items:center; gap:0.6rem; }
+.vtl-dot { width:16px; height:16px; border-radius:50%; border:2px solid var(--glass-border); background:var(--bg-void); transition:all 0.3s; position:relative; cursor:pointer; }
+.vtl-dot.active { border-color:var(--cyan); background:var(--cyan); box-shadow:0 0 15px var(--cyan); }
+.vtl-dot:hover { border-color:var(--cyan); transform:scale(1.3); }
+.vtl-year { font-family:var(--font-display); font-size:0.65rem; color:var(--white-dim); letter-spacing:0.1em; }
+.vtl-label { font-family:var(--font-ui); font-size:0.75rem; color:var(--white-dim); text-align:center; max-width:100px; }
+
+/* ============================================================
+   CONTACT SECTION
+   ============================================================ */
+#contact { padding: 8rem 0; background: linear-gradient(180deg, var(--bg-void) 0%, var(--bg-deep) 50%, var(--bg-void) 100%); }
+.contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:start; }
+.contact-info { display:flex; flex-direction:column; gap:1.5rem; }
+.contact-item {
+  display:flex; gap:1.2rem; align-items:flex-start;
+  background:var(--bg-card); border:1px solid var(--glass-border);
+  border-radius:12px; padding:1.2rem; backdrop-filter:blur(16px);
+  transition:all 0.3s; cursor:pointer;
+}
+.contact-item:hover { border-color:rgba(0,245,255,0.3); transform:translateX(6px); box-shadow:0 0 20px rgba(0,245,255,0.06); }
+.ci-icon { font-size:1.5rem; min-width:2rem; text-align:center; }
+.ci-label { font-family:var(--font-display); font-size:0.6rem; color:var(--cyan); letter-spacing:0.2em; text-transform:uppercase; margin-bottom:0.2rem; }
+.ci-value { font-family:var(--font-body); font-size:0.9rem; color:var(--white); }
+
+.social-row { display:flex; gap:1rem; margin-top:0.5rem; flex-wrap:wrap; }
+.social-btn {
+  display:flex; align-items:center; gap:0.6rem;
+  font-family:var(--font-display); font-size:0.6rem; letter-spacing:0.15em;
+  text-transform:uppercase; padding:0.6rem 1.2rem;
+  border:1px solid var(--glass-border); color:var(--white-dim);
+  border-radius:6px; background:var(--glass); backdrop-filter:blur(8px);
+  transition:all 0.3s; cursor:pointer;
+}
+.social-btn:hover { border-color:var(--cyan); color:var(--cyan); background:var(--cyan-glow); transform:translateY(-2px); }
+
+.contact-form {
+  background:var(--bg-card); border:1px solid var(--glass-border);
+  border-radius:20px; padding:2.5rem; backdrop-filter:blur(20px);
+}
+.form-title { font-family:var(--font-display); font-size:0.75rem; letter-spacing:0.25em; color:var(--cyan); text-transform:uppercase; margin-bottom:2rem; }
+.form-field { margin-bottom:1.5rem; }
+.form-label { font-family:var(--font-display); font-size:0.6rem; letter-spacing:0.2em; color:var(--white-dim); text-transform:uppercase; display:block; margin-bottom:0.5rem; }
+.form-input, .form-textarea {
+  width:100%; background:rgba(255,255,255,0.03); border:1px solid var(--glass-border);
+  border-radius:8px; padding:0.8rem 1rem; color:var(--white);
+  font-family:var(--font-body); font-size:0.9rem; outline:none;
+  transition:border-color 0.3s, box-shadow 0.3s;
+}
+.form-input:focus, .form-textarea:focus { border-color:rgba(0,245,255,0.4); box-shadow:0 0 15px rgba(0,245,255,0.08); }
+.form-textarea { resize:vertical; min-height:120px; }
+.form-submit {
+  width:100%; font-family:var(--font-display); font-size:0.7rem; letter-spacing:0.25em;
+  text-transform:uppercase; padding:1rem; cursor:pointer;
+  background:linear-gradient(135deg, var(--blue), var(--cyan));
+  border:none; color:var(--bg-void); font-weight:700; border-radius:8px;
+  transition:all 0.3s;
+  box-shadow: 0 0 20px rgba(0,245,255,0.2);
+}
+.form-submit:hover { box-shadow:0 0 40px rgba(0,245,255,0.4); transform:translateY(-2px); }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer {
+  padding: 2rem; text-align:center;
+  border-top: 1px solid var(--glass-border);
+  font-family:var(--font-ui); font-size:0.8rem; color:var(--white-dim);
+}
+footer span { color:var(--cyan); }
+
+/* ============================================================
+   RESPONSIVE MOBILE
+   ============================================================ */
+@media (max-width: 900px) {
+  .hero-inner { grid-template-columns:1fr; gap:3rem; }
+  .hero-profile-area { order:-1; }
+  .about-grid, .org-layout, .islamic-grid, .contact-grid { grid-template-columns:1fr; gap:2.5rem; }
+  .biz-grid { grid-template-columns:repeat(2,1fr); }
+  .study-cards-grid { grid-template-columns:repeat(2,1fr); }
+  .ka-grid, .vision-grid { grid-template-columns:repeat(2,1fr); }
+  nav { padding:0 1rem; }
+  .nav-links { display:none; }
+  .hamburger { display:flex; }
+  .hero-code { display:none; }
+  .stats-row { grid-template-columns:repeat(2,1fr); }
+}
+@media (max-width: 580px) {
+  .biz-grid, .study-cards-grid, .ka-grid, .vision-grid { grid-template-columns:1fr; }
+  .profile-orbit { width:200px; height:200px; }
+  .profile-img-wrap { width:160px; height:160px; }
+  .org-concepts { grid-template-columns:1fr; }
+  .vtl-items { flex-wrap:wrap; gap:1.5rem; justify-content:center; }
+  .vision-timeline::before { display:none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     LOADING SCREEN
+     ============================================================ -->
+<div id="loader">
+  <div class="loader-logo">INITIALIZING · NHU · SYSTEM</div>
+  <div class="loader-bar-track">
+    <div class="loader-bar-fill"></div>
+  </div>
+  <div class="loader-pct" id="loader-pct">0%</div>
+</div>
+
+<!-- CURSOR -->
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<!-- SCROLL PROGRESS -->
+<div id="scroll-bar"></div>
+
+<!-- PARTICLE CANVAS -->
+<canvas id="particle-canvas"></canvas>
+
+<!-- MOUSE GLOW -->
+<div id="mouse-glow"></div>
+
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<nav id="navbar">
+  <div class="nav-logo">NHU<span> · PORTFOLIO</span></div>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#business">Business</a></li>
+    <li><a href="#study">Study</a></li>
+    <li><a href="#complex-org">Complex Org</a></li>
+    <li><a href="#knowledge">Knowledge</a></li>
+    <li><a href="#islamic-economy">Islamic Economy</a></li>
+    <li><a href="#vision">Vision</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#home">Home</a>
+  <a href="#about">About</a>
+  <a href="#business">Business</a>
+  <a href="#study">Study</a>
+  <a href="#complex-org">Complex Org</a>
+  <a href="#knowledge">Knowledge</a>
+  <a href="#islamic-economy">Islamic Economy</a>
+  <a href="#vision">Vision</a>
+  <a href="#contact">Contact</a>
+</div>
+
+<!-- ============================================================
+     HERO SECTION
+     ============================================================ -->
+<section id="home">
+  <div class="hero-inner">
+    <!-- Left: Text + Code -->
+    <div class="hero-left">
+      <div class="hero-badge">SYSTEM ONLINE · PROFILE LOADED</div>
+      <!-- NOTE: Change name here -->
+      <h1 class="hero-name">Nuzhab<br>Hossain Udoy</h1>
+      <div class="hero-uni">Student · Real Estate Department · Daffodil International University</div>
+      <div class="typing-wrapper">
+        <span class="typing-prefix">//</span>
+        <span id="typed-text"></span>
+      </div>
+      <p class="hero-desc">
+        A visionary student at the intersection of real estate, strategic systems thinking,
+        and civilization-scale institutional design. Researching the future of
+        <strong style="color:var(--cyan)">knowledge architecture</strong>,
+        <strong style="color:var(--cyan)">Islamic economic models</strong>, and
+        <strong style="color:var(--cyan)">complex organizational ecosystems</strong>.
+      </p>
+      <div class="hero-ctas">
+        <a href="#about"><button class="btn-primary">Explore Profile</button></a>
+        <a href="#contact"><button class="btn-ghost">Connect Now</button></a>
+      </div>
+    </div>
+
+    <!-- Right: Profile + Stats / Code Panel -->
+    <div class="hero-profile-area">
+      <div class="profile-orbit">
+        <div class="orbit-ring orbit-ring-1"><div class="orbit-dot"></div></div>
+        <div class="orbit-ring orbit-ring-2"></div>
+        <div class="orbit-ring orbit-ring-3"></div>
+        <!-- NOTE: Replace image src with your own profile photo URL -->
+        <div class="profile-img-wrap">
+          <img src="https://plain-apac-prod-public.komododecks.com/202605/21/csko6bDws6KUKD6TpLdM/image.png" alt="Nuzhab Hossain Udoy">
+        </div>
+      </div>
+      <div class="profile-stats">
+        <div class="pstat"><div class="pstat-num" data-count="5">0</div><div class="pstat-label">Research Areas</div></div>
+        <div class="pstat"><div class="pstat-num" data-count="12">0</div><div class="pstat-label">Study Topics</div></div>
+        <div class="pstat"><div class="pstat-num" data-count="8">0</div><div class="pstat-label">Vision Goals</div></div>
+      </div>
+      <!-- Code panel shown on desktop below stats -->
+      <div class="hero-code" style="margin-top:1.5rem; width:100%;">
+        <!-- NOTE: Modify code snippets here to reflect current projects -->
+        <span class="code-line" style="margin-top:1.5rem;"></span>
+        <span class="code-line"><span class="c-comment">// NHU Strategic Systems Architecture v2.0</span></span>
+        <span class="code-line"><span class="c-keyword">const</span> <span class="c-var">strategist</span> = {</span>
+        <span class="code-line">&nbsp;&nbsp;<span class="c-prop">name</span>: <span class="c-str">"Nuzhab Hossain Udoy"</span>,</span>
+        <span class="code-line">&nbsp;&nbsp;<span class="c-prop">domain</span>: <span class="c-str">"Real Estate + Systems"</span>,</span>
+        <span class="code-line">&nbsp;&nbsp;<span class="c-prop">vision</span>: <span class="c-str">"Civilization Scale"</span>,</span>
+        <span class="code-line">&nbsp;&nbsp;<span class="c-prop">research</span>: [<span class="c-str">"Islamic Econ"</span>, <span class="c-str">"Complex Orgs"</span>],</span>
+        <span class="code-line">};</span>
+        <span class="code-line"></span>
+        <span class="code-line"><span class="c-keyword">async function</span> <span class="c-fn">buildFuture</span>(<span class="c-var">world</span>) {</span>
+        <span class="code-line">&nbsp;&nbsp;<span class="c-keyword">const</span> <span class="c-var">knowledge</span> = <span class="c-keyword">await</span> <span class="c-fn">acquire</span>(world);</span>
+        <span class="code-line">&nbsp;&nbsp;<span class="c-keyword">const</span> <span class="c-var">system</span> = <span class="c-fn">architect</span>(knowledge);</span>
+        <span class="code-line">&nbsp;&nbsp;<span class="c-keyword">return</span> <span class="c-fn">deploy</span>(system, <span class="c-str">"global"</span>);</span>
+        <span class="code-line">}</span>
+        <span class="code-line"></span>
+        <span class="code-line"><span class="c-comment">// STATUS: <span class="code-blink">■</span> Learning in progress...</span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     ABOUT SECTION
+     ============================================================ -->
+<section id="about">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-tag">Identity Matrix</div>
+      <h2 class="section-title">Who is Nuzhab Hossain Udoy</h2>
+      <p class="section-subtitle">A strategic thinker, knowledge architect, and civilization systems researcher building the foundations of tomorrow.</p>
+    </div>
+    <div class="about-grid">
+      <div class="about-visual reveal">
+        <!-- NOTE: Add a second/different photo here for the about section -->
+        <div class="about-img-frame">
+          <img src="https://plain-apac-prod-public.komododecks.com/202605/21/1wMD8oGra7QulSDhgUyo/image.png" alt="About Nuzhab">
+          <div class="about-img-overlay"></div>
+        </div>
+        <div class="stats-row" style="margin-top:1.5rem">
+          <!-- NOTE: Update these counter numbers as you grow -->
+          <div class="stat-box"><div class="stat-num" data-count="3">0</div><div class="stat-label">Years of Study</div></div>
+          <div class="stat-box"><div class="stat-num" data-count="8">0</div><div class="stat-label">Domains Explored</div></div>
+          <div class="stat-box"><div class="stat-num" data-count="5">0</div><div class="stat-label">Active Projects</div></div>
+        </div>
+      </div>
+      <div class="about-right reveal">
+        <div class="about-tags">
+          <span class="atag">Real Estate</span>
+          <span class="atag">Systems Engineer</span>
+          <span class="atag">Strategic Thinker</span>
+          <span class="atag">Islamic Economics</span>
+          <span class="atag">Knowledge Architect</span>
+          <span class="atag">Researcher</span>
+        </div>
+        <p class="about-text">
+          Nuzhab Hossain Udoy is a <strong>Real Estate student</strong> at Daffodil International University
+          with an extraordinary breadth of intellectual ambition. Beyond the boundaries of his formal academic discipline,
+          he explores the deep architecture of <strong>complex organizations</strong>, the philosophy of
+          <strong>strategic institutions</strong>, and the engineering of civilization-scale systems.
+        </p>
+        <p class="about-text">
+          His research interests span <strong>Islamic economic models</strong>, aquaponic industrial systems,
+          corporate ecosystem design, and the future of knowledge-based institutions. He envisions institutions
+          that fuse ethical economics with technological precision — systems that serve both humanity and purpose.
+        </p>
+        <p class="about-text">
+          Guided by a vision of <strong>professional mastery and civilizational architecture</strong>, Udoy is
+          building a unique interdisciplinary intellectual framework that may one day form the backbone of
+          genuine transformative institutions.
+        </p>
+        <!-- NOTE: Add your own timeline events below -->
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="tl-year">2022 → PRESENT</div>
+            <div class="tl-text">Enrolled in Real Estate Department, Daffodil International University — building foundations in property development, urban planning, and land economics.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="tl-year">SELF-DIRECTED</div>
+            <div class="tl-text">Deep independent research into complex organizational theory, Islamic economic systems, aerospace & automobile industries, and systems engineering.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="tl-year">ONGOING</div>
+            <div class="tl-text">Developing the conceptual framework for the Institution of Knowledge Architecture and Professional Mastery — a vision for elite, civilization-scale education.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     BUSINESS & STRATEGIC INTERESTS SECTION
+     ============================================================ -->
+<section id="business" style="padding:8rem 0;">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-tag">Strategic Domains</div>
+      <h2 class="section-title">Business & Strategic Interests</h2>
+      <p class="section-subtitle">A multidimensional portfolio of interests spanning real assets, ethical finance, and industrial civilizations.</p>
+    </div>
+    <!-- NOTE: Add or remove business interest cards here -->
+    <div class="biz-grid reveal">
+      <div class="biz-card">
+        <span class="biz-icon">🏗️</span>
+        <div class="biz-title">Real Estate</div>
+        <div class="biz-desc">Property development, urban design, land economics, and sustainable real estate ecosystems for the future city.</div>
+        <div class="biz-card-glow"></div>
+      </div>
+      <div class="biz-card">
+        <span class="biz-icon">☪️</span>
+        <div class="biz-title">Islamic Investment</div>
+        <div class="biz-desc">Sharia-compliant investment architecture, riba-free financing models, and ethical wealth distribution frameworks.</div>
+        <div class="biz-card-glow"></div>
+      </div>
+      <div class="biz-card">
+        <span class="biz-icon">🏛️</span>
+        <div class="biz-title">Corporate Ecosystems</div>
+        <div class="biz-desc">Designing interconnected corporate structures with autonomous divisions and shared governance intelligence.</div>
+        <div class="biz-card-glow"></div>
+      </div>
+      <div class="biz-card">
+        <span class="biz-icon">🧠</span>
+        <div class="biz-title">Strategic Institutions</div>
+        <div class="biz-desc">Architecture of institutions that serve generational purposes — think tanks, research empires, and civilizational organizations.</div>
+        <div class="biz-card-glow"></div>
+      </div>
+      <div class="biz-card">
+        <span class="biz-icon">🎓</span>
+        <div class="biz-title">Educational Architecture</div>
+        <div class="biz-desc">Mastery-based educational infrastructure combining strategic intelligence, craft excellence, and institutional culture.</div>
+        <div class="biz-card-glow"></div>
+      </div>
+      <div class="biz-card">
+        <span class="biz-icon">🌿</span>
+        <div class="biz-title">Aquaponic Systems</div>
+        <div class="biz-desc">Sustainable food-production ecosystems integrating fish aquaculture with hydroponic plant cultivation at industrial scale.</div>
+        <div class="biz-card-glow"></div>
+      </div>
+      <div class="biz-card">
+        <span class="biz-icon">⚙️</span>
+        <div class="biz-title">Industrial Research</div>
+        <div class="biz-desc">Deep-dive analysis of aerospace, automobile, and heavy industries — understanding production ecosystems and value chains.</div>
+        <div class="biz-card-glow"></div>
+      </div>
+      <div class="biz-card">
+        <span class="biz-icon">🌐</span>
+        <div class="biz-title">Civilization Engineering</div>
+        <div class="biz-desc">Designing scalable institutional blueprints that can govern, educate, produce, and sustain civilizations at macro scale.</div>
+        <div class="biz-card-glow"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     STUDY SECTION
+     ============================================================ -->
+<section id="study">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-tag">Knowledge Systems</div>
+      <h2 class="section-title">Academic & Self-Study</h2>
+      <p class="section-subtitle">A dual-track learning architecture combining institutional education with sovereign self-directed research.</p>
+    </div>
+    <div class="study-tabs reveal">
+      <button class="study-tab active" onclick="switchTab('academic')">🎓 Academic Study</button>
+      <button class="study-tab" onclick="switchTab('self')">🔬 Self-Study & Research</button>
+    </div>
+
+    <!-- NOTE: Add new study topics by copying a .study-card block -->
+    <div id="tab-academic" class="study-panel active reveal">
+      <div class="study-cards-grid">
+        <div class="study-card">
+          <div class="study-card-icon">🏘️</div>
+          <div class="study-card-title">Real Estate Principles</div>
+          <div class="study-card-desc">Core concepts of property ownership, valuation methodologies, market dynamics, and investment return analysis.</div>
+          <div class="progress-label"><span>Proficiency</span><span>78%</span></div>
+          <div class="progress-bar"><div class="progress-fill" style="width:0" data-width="78"></div></div>
+        </div>
+        <div class="study-card">
+          <div class="study-card-icon">🏗️</div>
+          <div class="study-card-title">Property Development</div>
+          <div class="study-card-desc">End-to-end project development lifecycle from site acquisition to construction management and final delivery.</div>
+          <div class="progress-label"><span>Proficiency</span><span>70%</span></div>
+          <div class="progress-bar"><div class="progress-fill" style="width:0" data-width="70"></div></div>
+        </div>
+        <div class="study-card">
+          <div class="study-card-icon">🏙️</div>
+          <div class="study-card-title">Urban Planning</div>
+          <div class="study-card-desc">City design philosophies, zoning frameworks, infrastructure planning, and smart city integration strategies.</div>
+          <div class="progress-label"><span>Proficiency</span><span>65%</span></div>
+          <div class="progress-bar"><div class="progress-fill" style="width:0" data-width="65"></div></div>
+        </div>
+        <div class="study-card">
+          <div class="study-card-icon">📊</div>
+          <div class="study-card-title">Land Economics</div>
+          <div class="study-card-desc">Economic theories governing land use, rent theory, supply-demand dynamics, and resource allocation in property markets.</div>
+          <div class="progress-label"><span>Proficiency</span><span>72%</span></div>
+          <div class="progress-bar"><div class="progress-fill" style="width:0" data-width="72"></div></div>
+        </div>
+        <div class="study-card">
+          <div class="study-card-icon">📋</div>
+          <div class="study-card-title">Real Estate Management</div>
+          <div class="study-card-desc">Asset management, tenant relations, portfolio optimization, and strategic property operations across diverse holdings.</div>
+          <div class="progress-label"><span>Proficiency</span><span>68%</span></div>
+          <div class="progress-bar"><div class="progress-fill" style="width:0" data-width="68"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="tab-self" class="study-panel reveal">
+      <div class="study-cards-grid">
+        <div class="study-card">
+          <div class="study-card-icon">🏛️</div>
+          <div class="study-card-title">Complex Organizations</div>
+          <div class="study-card-desc">Multi-layered institutional architectures, networked governance models, and autonomous departmental systems at scale.</div>
+          <div class="progress-label"><span>Depth</span><span>85%</span></div>
+          <div class="progress-bar"><div class="progress-fill" style="width:0" data-width="85"></div></div>
+        </div>
+        <div class="study-card">
+          <div class="study-card-icon">⚙️</div>
+          <div class="study-card-title">Systems Engineering</div>
+          <div class="study-card-desc">Holistic design of complex engineered systems — feedback loops, resilience architectures, interdependencies, and emergent behaviors.</div>
+          <div class="progress-label"><span>Depth</span><span>75%</span></div>
+          <div class="progress-bar"><div class="progress-fill" style="width:0" data-width="75"></div></div>
+        </div>
+        <div class="study-card">
+          <div class="study-card-icon">☪️</div>
+          <div class="study-card-title">Islamic Economics</div>
+          <div class="study-card-desc">Fiqh al-Muamalat, zakat-based wealth distribution, waqf institutions, and halal investment instruments for modern economies.</div>
+          <div class="progress-label"><span>Depth</span><span>80%</span></div>
+          <div class="progress-bar"><div class="progress-fill" style="width:0" data-width="80"></div></div>
+        </div>
+        <div class="study-card">
+          <div class="study-card-icon">🚀</div>
+          <div class="study-card-title">Aerospace Industry</div>
+          <div class="study-card-desc">Study of aerospace value chains, manufacturing ecosystems, propulsion technologies, and space-economy institutional structures.</div>
+          <div class="progress-label"><span>Depth</span><span>60%</span></div>
+          <div class="progress-bar"><div class="progress-fill" style="width:0" data-width="60"></div></div>
+        </div>
+        <div class="study-card">
+          <div class="study-card-icon">🚗</div>
+          <div class="study-card-title">Automobile Industry</div>
+          <div class="study-card-desc">OEM-supplier ecosystems, EV transition architectures, global manufacturing networks, and platform economics in mobility.</div>
+          <div class="progress-label"><span>Depth</span><span>65%</span></div>
+          <div class="progress-bar"><div class="progress-fill" style="width:0" data-width="65"></div></div>
+        </div>
+        <div class="study-card">
+          <div class="study-card-icon">🌐</div>
+          <div class="study-card-title">Civilization Design</div>
+          <div class="study-card-desc">Philosophical and practical frameworks for building societies — governance systems, cultural architecture, and long-term civilizational flourishing.</div>
+          <div class="progress-label"><span>Depth</span><span>70%</span></div>
+          <div class="progress-bar"><div class="progress-fill" style="width:0" data-width="70"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     COMPLEX ORGANIZATION SECTION
+     ============================================================ -->
+<section id="complex-org">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-tag">Strategic Architecture</div>
+      <h2 class="section-title">Complex Organization Research</h2>
+      <p class="section-subtitle">Mapping the architecture of multi-layered institutional systems and interconnected strategic networks.</p>
+    </div>
+    <div class="org-layout reveal">
+      <div>
+        <div class="org-diagram">
+          <div class="org-title-bar">ORGANIZATIONAL HIERARCHY · VISUALIZATION</div>
+          <svg id="org-svg" viewBox="0 0 400 260"></svg>
+        </div>
+        <div class="org-concepts">
+          <!-- NOTE: Add more concept cards here as research deepens -->
+          <div class="org-concept">
+            <div class="org-concept-title">⚡ Autonomous Departments</div>
+            <div class="org-concept-text">Self-governing units with defined mandates, internal resource management, and upward accountability channels.</div>
+          </div>
+          <div class="org-concept">
+            <div class="org-concept-title">🔗 Interdependent Systems</div>
+            <div class="org-concept-text">Institutional modules that share resources and intelligence while maintaining operational independence.</div>
+          </div>
+          <div class="org-concept">
+            <div class="org-concept-title">📡 Knowledge-Driven Command</div>
+            <div class="org-concept-text">Strategic decisions powered by real-time institutional intelligence and distributed expertise networks.</div>
+          </div>
+          <div class="org-concept">
+            <div class="org-concept-title">🌐 Expansion Frameworks</div>
+            <div class="org-concept-text">Scalable institutional blueprints that maintain identity and values as organizations grow across geographies.</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="section-tag" style="margin-bottom:1.5rem">Research Focus Areas</div>
+        <p class="about-text" style="margin-bottom:1.5rem">
+          Nuzhab's research into complex organizations examines how institutions of civilizational significance are architected,
+          governed, and sustained across decades and centuries. The study ranges from military-style command structures
+          to distributed knowledge institutions and hybrid corporate-government systems.
+        </p>
+        <p class="about-text" style="margin-bottom:2rem">
+          Key questions include: How do large-scale institutions maintain coherence? How do autonomous divisions maintain
+          alignment with core mission? What governance architectures enable both flexibility and stability?
+        </p>
+        <!-- Animated nodes -->
+        <div style="display:flex;flex-direction:column;gap:1rem;">
+          <div class="pillar" style="border-color:rgba(0,245,255,0.15)">
+            <div class="pillar-num" style="color:var(--cyan);font-size:1.3rem">01</div>
+            <div>
+              <div class="pillar-title">Multi-Layer Governance Architecture</div>
+              <div class="pillar-text">Designing governance that operates simultaneously at operational, strategic, and civilizational levels without creating bottlenecks.</div>
+            </div>
+          </div>
+          <div class="pillar" style="border-color:rgba(0,245,255,0.15)">
+            <div class="pillar-num" style="color:var(--cyan);font-size:1.3rem">02</div>
+            <div>
+              <div class="pillar-title">Distributed Strategic Systems</div>
+              <div class="pillar-text">Networks of coordinated institutions that act as a unified strategic force while each maintaining specialized domain mastery.</div>
+            </div>
+          </div>
+          <div class="pillar" style="border-color:rgba(0,245,255,0.15)">
+            <div class="pillar-num" style="color:var(--cyan);font-size:1.3rem">03</div>
+            <div>
+              <div class="pillar-title">Civilizational-Scale Modeling</div>
+              <div class="pillar-text">Applying systems engineering principles to model institutions that function reliably across multi-generational timescales.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     KNOWLEDGE ARCHITECTURE SECTION
+     ============================================================ -->
+<section id="knowledge">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-tag">Elite Institution</div>
+      <h2 class="section-title">Knowledge Architecture &<br>Professional Mastery</h2>
+      <p class="section-subtitle">
+        The conceptual framework for the <em>Institution of Knowledge Architecture and Professional Mastery</em> —
+        a vision for an elite, civilization-serving educational powerhouse.
+      </p>
+    </div>
+    <!-- NOTE: Add research papers or PDFs in this section when available -->
+    <div class="ka-grid reveal">
+      <div class="ka-card">
+        <div class="ka-num">01</div>
+        <div class="ka-icon">🏛️</div>
+        <div class="ka-title">Elite Education System</div>
+        <div class="ka-text">A mastery-first educational architecture where students achieve genuine excellence before advancing — no shallow credentials, only deep competence.</div>
+        <div class="ka-link">Explore Framework →</div>
+      </div>
+      <div class="ka-card">
+        <div class="ka-num">02</div>
+        <div class="ka-icon">🧠</div>
+        <div class="ka-title">Strategic Intelligence</div>
+        <div class="ka-text">Cultivating the capacity to analyze complex systems, anticipate change trajectories, and make decisions with civilizational consequence in mind.</div>
+        <div class="ka-link">Explore Framework →</div>
+      </div>
+      <div class="ka-card">
+        <div class="ka-num">03</div>
+        <div class="ka-icon">🔬</div>
+        <div class="ka-title">Civilization Research</div>
+        <div class="ka-text">Long-horizon research programs studying how civilizations rise, sustain, and transform — extracting institutional blueprints from history.</div>
+        <div class="ka-link">Explore Framework →</div>
+      </div>
+      <div class="ka-card">
+        <div class="ka-num">04</div>
+        <div class="ka-icon">👑</div>
+        <div class="ka-title">Leadership Architecture</div>
+        <div class="ka-text">Systems for developing leaders who combine moral clarity, strategic depth, technical mastery, and the ability to inspire institutional excellence.</div>
+        <div class="ka-link">Explore Framework →</div>
+      </div>
+      <div class="ka-card">
+        <div class="ka-num">05</div>
+        <div class="ka-icon">🗺️</div>
+        <div class="ka-title">Multi-Disciplinary Systems</div>
+        <div class="ka-text">Breaking artificial disciplinary silos — designing knowledge systems where engineering, philosophy, economics, and strategy reinforce each other.</div>
+        <div class="ka-link">Explore Framework →</div>
+      </div>
+      <div class="ka-card">
+        <div class="ka-num">06</div>
+        <div class="ka-icon">⚡</div>
+        <div class="ka-title">Professional Excellence</div>
+        <div class="ka-text">Pathways from raw intellectual potential to professional mastery — structured, demanding, and rewarding programs that produce true institutional architects.</div>
+        <div class="ka-link">Explore Framework →</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     ISLAMIC ECONOMY SECTION
+     ============================================================ -->
+<section id="islamic-economy">
+  <div class="section-inner islamic-inner">
+    <div class="islamic-bg-pattern"></div>
+    <div class="section-header reveal" style="position:relative;z-index:1">
+      <div class="section-tag" style="border-color:rgba(240,180,41,0.3);color:var(--gold);background:var(--gold-dim);">Economic Vision</div>
+      <h2 class="section-title" style="background:linear-gradient(135deg,var(--white) 40%,var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Islamic Economic Revolution</h2>
+      <p class="section-subtitle">Building ethical, Sharia-compliant economic ecosystems that serve both worldly prosperity and divine purpose.</p>
+    </div>
+    <div class="islamic-grid reveal">
+      <div class="islamic-pillars">
+        <!-- NOTE: Add additional Islamic economic principles here -->
+        <div class="pillar">
+          <div class="pillar-num">01</div>
+          <div>
+            <div class="pillar-title">Riba-Free Financial Systems</div>
+            <div class="pillar-text">Complete architectural replacement of interest-based financing with equity partnerships, profit-sharing, and murabaha instruments that serve real economic activity.</div>
+          </div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num">02</div>
+          <div>
+            <div class="pillar-title">Zakat-Powered Redistribution</div>
+            <div class="pillar-text">Systematic wealth redistribution through Zakat institutions designed as economic engines — channeling capital into productive community development.</div>
+          </div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num">03</div>
+          <div>
+            <div class="pillar-title">Waqf Institutional Endowments</div>
+            <div class="pillar-text">Permanent charitable endowments funding education, healthcare, and research — self-sustaining institutional ecosystems outside the profit motive.</div>
+          </div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num">04</div>
+          <div>
+            <div class="pillar-title">Ethical Industrialization</div>
+            <div class="pillar-text">Industrial development guided by Islamic principles of stewardship (amanah), justice (adl), and community benefit — sustainable production at civilizational scale.</div>
+          </div>
+        </div>
+      </div>
+      <div class="islamic-flow">
+        <div class="flow-title">ECONOMIC ECOSYSTEM FLOW</div>
+        <div class="flow-nodes">
+          <div class="flow-node">
+            <div><div class="flow-node-label">Knowledge Creation</div><div class="flow-node-sub">Islamic universities, research waqfs</div></div>
+          </div>
+          <div class="flow-node">
+            <div><div class="flow-node-label">Ethical Capital Formation</div><div class="flow-node-sub">Mudarabah & Musharakah models</div></div>
+          </div>
+          <div class="flow-node">
+            <div><div class="flow-node-label">Productive Investment</div><div class="flow-node-sub">Halal industries, real assets</div></div>
+          </div>
+          <div class="flow-node">
+            <div><div class="flow-node-label">Wealth Distribution</div><div class="flow-node-sub">Zakat, sadaqah, fair wages</div></div>
+          </div>
+          <div class="flow-node">
+            <div><div class="flow-node-label">Community Empowerment</div><div class="flow-node-sub">Waqf-funded social infrastructure</div></div>
+          </div>
+          <div class="flow-node">
+            <div><div class="flow-node-label">Civilizational Flourishing</div><div class="flow-node-sub">Ummah-scale prosperity</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     VISION SECTION
+     ============================================================ -->
+<section id="vision">
+  <div class="vision-bg"></div>
+  <div class="section-inner" style="position:relative;z-index:2;">
+    <div class="section-header reveal">
+      <div class="section-tag">Future Architecture</div>
+      <h2 class="section-title">The Grand Vision</h2>
+      <p class="section-subtitle">A roadmap toward building institutions, systems, and ecosystems that will shape civilization for generations.</p>
+    </div>
+    <!-- NOTE: Add future projects and milestones here -->
+    <div class="vision-grid reveal">
+      <div class="vision-card">
+        <div class="vision-icon">🌐</div>
+        <div class="vision-title">Global Strategic Institutions</div>
+        <div class="vision-text">Building international-caliber think tanks and research institutions that bridge Islamic civilization wisdom with modern systems science.</div>
+        <div class="vision-year">VISION · 2030+</div>
+      </div>
+      <div class="vision-card">
+        <div class="vision-icon">📚</div>
+        <div class="vision-title">Knowledge Civilization Systems</div>
+        <div class="vision-text">An integrated network of mastery-based educational institutions creating a pipeline of civilizational architects and strategic leaders.</div>
+        <div class="vision-year">VISION · 2035+</div>
+      </div>
+      <div class="vision-card">
+        <div class="vision-icon">💰</div>
+        <div class="vision-title">Ethical Economic Ecosystems</div>
+        <div class="vision-text">Full-stack Islamic economic platforms from banking to investment to industrial production — an alternative financial civilization.</div>
+        <div class="vision-year">VISION · 2032+</div>
+      </div>
+      <div class="vision-card">
+        <div class="vision-icon">🏙️</div>
+        <div class="vision-title">Smart Educational Infrastructure</div>
+        <div class="vision-text">Physical campuses designed as intellectual ecosystems — libraries, labs, research centers, and living spaces architected for mastery.</div>
+        <div class="vision-year">VISION · 2033+</div>
+      </div>
+      <div class="vision-card">
+        <div class="vision-icon">🏗️</div>
+        <div class="vision-title">Integrated Corporate Structures</div>
+        <div class="vision-text">Conglomerate ecosystems spanning real estate, technology, agriculture, and education — all operating under unified ethical governance.</div>
+        <div class="vision-year">VISION · 2031+</div>
+      </div>
+      <div class="vision-card">
+        <div class="vision-icon">♻️</div>
+        <div class="vision-title">Sustainable Innovation Systems</div>
+        <div class="vision-text">Aquaponic farms, renewable energy grids, and sustainable construction methods integrated into self-sufficient community systems.</div>
+        <div class="vision-year">VISION · 2029+</div>
+      </div>
+    </div>
+
+    <!-- Vision Timeline -->
+    <div class="vision-timeline reveal" style="margin-top:4rem">
+      <div class="vtl-items">
+        <div class="vtl-item"><div class="vtl-dot active"></div><div class="vtl-year">2022</div><div class="vtl-label">Begin University</div></div>
+        <div class="vtl-item"><div class="vtl-dot active"></div><div class="vtl-year">2024</div><div class="vtl-label">Deep Research Phase</div></div>
+        <div class="vtl-item"><div class="vtl-dot active"></div><div class="vtl-year">2026</div><div class="vtl-label">Framework Development</div></div>
+        <div class="vtl-item"><div class="vtl-dot"></div><div class="vtl-year">2028</div><div class="vtl-label">First Institutions</div></div>
+        <div class="vtl-item"><div class="vtl-dot"></div><div class="vtl-year">2030</div><div class="vtl-label">Network Building</div></div>
+        <div class="vtl-item"><div class="vtl-dot"></div><div class="vtl-year">2035</div><div class="vtl-label">Civilizational Impact</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CONTACT SECTION
+     ============================================================ -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-tag">Communication Hub</div>
+      <h2 class="section-title">Connect with Nuzhab</h2>
+      <p class="section-subtitle">Reach out for collaborations, research discussions, or any inquiry. Every serious connection is welcomed.</p>
+    </div>
+    <div class="contact-grid reveal">
+      <div class="contact-info">
+        <!-- NOTE: Update contact information as needed -->
+        <a href="mailto:261-33-040@diu.edu.bd" class="contact-item">
+          <div class="ci-icon">📧</div>
+          <div><div class="ci-label">Email</div><div class="ci-value">261-33-040@diu.edu.bd</div></div>
+        </a>
+        <a href="tel:01797775000" class="contact-item">
+          <div class="ci-icon">📱</div>
+          <div><div class="ci-label">Phone</div><div class="ci-value">01797775000</div></div>
+        </a>
+        <div class="contact-item">
+          <div class="ci-icon">📍</div>
+          <div><div class="ci-label">Address</div><div class="ci-value">Younus Khan Scholar Garden-2</div></div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon">🏫</div>
+          <div><div class="ci-label">University</div><div class="ci-value">Daffodil International University<br>Real Estate Department</div></div>
+        </div>
+        <!-- Social buttons -->
+        <div class="social-row">
+          <!-- NOTE: Add more social links here -->
+          <a href="https://www.facebook.com/profile.php?id=61580370875723" target="_blank" class="social-btn">
+            <span>📘</span> Facebook
+          </a>
+          <a href="https://www.youtube.com/@NuzhabHossainUdoy" target="_blank" class="social-btn">
+            <span>▶️</span> YouTube
+          </a>
+        </div>
+      </div>
+      <!-- Contact form -->
+      <div class="contact-form glass-card">
+        <div class="form-title">Send a Message</div>
+        <!-- NOTE: Connect this form to a backend or Formspree for real email delivery -->
+        <div class="form-field">
+          <label class="form-label">Your Name</label>
+          <input type="text" class="form-input" placeholder="Enter your name">
+        </div>
+        <div class="form-field">
+          <label class="form-label">Email Address</label>
+          <input type="email" class="form-input" placeholder="your@email.com">
+        </div>
+        <div class="form-field">
+          <label class="form-label">Subject</label>
+          <input type="text" class="form-input" placeholder="Research inquiry, Collaboration...">
+        </div>
+        <div class="form-field">
+          <label class="form-label">Message</label>
+          <textarea class="form-textarea" placeholder="Your message here..."></textarea>
+        </div>
+        <button class="form-submit" onclick="handleFormSubmit(this)">TRANSMIT MESSAGE →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer>
+  <p>© 2025 <span>Nuzhab Hossain Udoy</span> · Real Estate Department · Daffodil International University</p>
+  <p style="margin-top:0.5rem;font-size:0.7rem;opacity:0.5;">Built with vision. Designed for civilization. Powered by knowledge.</p>
+  <!-- NOTE: Add links to your blog, research repository, or gallery here -->
+</footer>
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script>
+/* ====================================================
+   LOADING SCREEN
+   ==================================================== */
+let loadPct = 0;
+const loaderPct = document.getElementById('loader-pct');
+const loaderFill = document.querySelector('.loader-bar-fill');
+const loaderInterval = setInterval(() => {
+  loadPct = Math.min(loadPct + Math.random() * 15, 100);
+  loaderPct.textContent = Math.floor(loadPct) + '%';
+  if (loadPct >= 100) {
+    clearInterval(loaderInterval);
+    setTimeout(() => {
+      document.getElementById('loader').classList.add('hidden');
+      initAnimations();
+    }, 300);
+  }
+}, 180);
+
+/* ====================================================
+   CUSTOM CURSOR
+   ==================================================== */
+const dot = document.getElementById('cursor-dot');
+const ring = document.getElementById('cursor-ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+  document.getElementById('mouse-glow').style.left = mx + 'px';
+  document.getElementById('mouse-glow').style.top = my + 'px';
+});
+
+const raf = () => {
+  rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+  requestAnimationFrame(raf);
+};
+raf();
+
+document.querySelectorAll('a, button, .biz-card, .study-card, .ka-card, .contact-item, .social-btn').forEach(el => {
+  el.addEventListener('mouseenter', () => ring.classList.add('hovering'));
+  el.addEventListener('mouseleave', () => ring.classList.remove('hovering'));
+});
+
+/* ====================================================
+   SCROLL PROGRESS
+   ==================================================== */
+window.addEventListener('scroll', () => {
+  const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+  document.getElementById('scroll-bar').style.width = pct + '%';
+  // Navbar
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+  // Active nav
+  document.querySelectorAll('section').forEach(sec => {
+    const rect = sec.getBoundingClientRect();
+    if (rect.top <= 100 && rect.bottom >= 100) {
+      document.querySelectorAll('.nav-links a').forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + sec.id);
+      });
+    }
+  });
+  checkReveal();
+  animateProgressBars();
+});
+
+/* ====================================================
+   REVEAL ON SCROLL
+   ==================================================== */
+function checkReveal() {
+  document.querySelectorAll('.reveal').forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight * 0.88) el.classList.add('visible');
+  });
+}
+
+/* ====================================================
+   PARTICLES
+   ==================================================== */
+const canvas = document.getElementById('particle-canvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+class Particle {
+  constructor() { this.reset(); }
+  reset() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.size = Math.random() * 1.5 + 0.3;
+    this.speedX = (Math.random() - 0.5) * 0.3;
+    this.speedY = (Math.random() - 0.5) * 0.3;
+    this.opacity = Math.random() * 0.5 + 0.1;
+    this.color = Math.random() > 0.7 ? '#00f5ff' : Math.random() > 0.5 ? '#0066ff' : '#8b00ff';
+  }
+  update() {
+    this.x += this.speedX; this.y += this.speedY;
+    if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
+  }
+  draw() {
+    ctx.save();
+    ctx.globalAlpha = this.opacity;
+    ctx.fillStyle = this.color;
+    ctx.shadowBlur = 6; ctx.shadowColor = this.color;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+}
+
+function initParticles() {
+  particles = [];
+  for (let i = 0; i < 120; i++) particles.push(new Particle());
+}
+
+function drawConnections() {
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      if (dist < 80) {
+        ctx.save();
+        ctx.globalAlpha = (1 - dist/80) * 0.08;
+        ctx.strokeStyle = '#00f5ff';
+        ctx.lineWidth = 0.5;
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.stroke();
+        ctx.restore();
+      }
+    }
+  }
+}
+
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => { p.update(); p.draw(); });
+  drawConnections();
+  requestAnimationFrame(animateParticles);
+}
+
+/* ====================================================
+   TYPING EFFECT
+   ==================================================== */
+const phrases = [
+  'Real Estate Strategist',
+  'Knowledge Architect',
+  'Complex Org Researcher',
+  'Islamic Economic Visionary',
+  'Civilization System Thinker',
+  'Future Institution Designer'
+];
+let phraseIndex = 0, charIndex = 0, deleting = false;
+const typedEl = document.getElementById('typed-text');
+
+function type() {
+  const current = phrases[phraseIndex];
+  if (!deleting) {
+    typedEl.textContent = current.slice(0, ++charIndex);
+    if (charIndex === current.length) { deleting = true; setTimeout(type, 1800); return; }
+  } else {
+    typedEl.textContent = current.slice(0, --charIndex);
+    if (charIndex === 0) { deleting = false; phraseIndex = (phraseIndex + 1) % phrases.length; }
+  }
+  setTimeout(type, deleting ? 40 : 70);
+}
+
+/* ====================================================
+   COUNTER ANIMATION
+   ==================================================== */
+function animateCounters() {
+  document.querySelectorAll('[data-count]').forEach(el => {
+    if (el.dataset.animated) return;
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight * 0.9) {
+      el.dataset.animated = true;
+      const target = parseInt(el.dataset.count);
+      let current = 0;
+      const increment = target / 40;
+      const timer = setInterval(() => {
+        current = Math.min(current + increment, target);
+        el.textContent = Math.floor(current);
+        if (current >= target) clearInterval(timer);
+      }, 40);
+    }
+  });
+}
+
+/* ====================================================
+   PROGRESS BARS
+   ==================================================== */
+function animateProgressBars() {
+  document.querySelectorAll('.progress-fill').forEach(bar => {
+    if (bar.dataset.animated) return;
+    const rect = bar.getBoundingClientRect();
+    if (rect.top < window.innerHeight) {
+      bar.dataset.animated = true;
+      bar.style.width = bar.dataset.width + '%';
+    }
+  });
+}
+
+/* ====================================================
+   ORG SVG DIAGRAM
+   ==================================================== */
+function drawOrgChart() {
+  const svg = document.getElementById('org-svg');
+  const nodes = [
+    { id:'top', label:'Strategic Command', x:200, y:30, color:'#00f5ff' },
+    { id:'a', label:'Knowledge Dept', x:80, y:110, color:'#0066ff' },
+    { id:'b', label:'Economic Div', x:200, y:110, color:'#8b00ff' },
+    { id:'c', label:'Operations', x:320, y:110, color:'#0066ff' },
+    { id:'a1', label:'Research', x:30, y:195, color:'#00b8cc' },
+    { id:'a2', label:'Education', x:110, y:195, color:'#00b8cc' },
+    { id:'b1', label:'Investment', x:170, y:195, color:'#6600cc' },
+    { id:'b2', label:'Waqf Mgmt', x:250, y:195, color:'#6600cc' },
+    { id:'c1', label:'Industrial', x:295, y:195, color:'#00b8cc' },
+    { id:'c2', label:'Real Estate', x:370, y:195, color:'#00b8cc' },
+  ];
+  const edges = [
+    ['top','a'], ['top','b'], ['top','c'],
+    ['a','a1'], ['a','a2'], ['b','b1'], ['b','b2'], ['c','c1'], ['c','c2']
+  ];
+  let html = '';
+  // Draw edges first
+  edges.forEach(([from, to]) => {
+    const n1 = nodes.find(n=>n.id===from);
+    const n2 = nodes.find(n=>n.id===to);
+    html += `<line x1="${n1.x}" y1="${n1.y+12}" x2="${n2.x}" y2="${n2.y-12}" stroke="rgba(0,245,255,0.2)" stroke-width="1" stroke-dasharray="4 2"/>`;
+    // Glow dot at midpoint
+    const mx=(n1.x+n2.x)/2, my=(n1.y+n2.y)/2;
+    html += `<circle cx="${mx}" cy="${my}" r="2" fill="${n1.color}" opacity="0.5"/>`;
+  });
+  // Draw nodes
+  nodes.forEach(n => {
+    const isTop = n.id === 'top';
+    const w = isTop ? 130 : 85;
+    const h = isTop ? 24 : 20;
+    html += `
+      <rect x="${n.x - w/2}" y="${n.y - h/2}" width="${w}" height="${h}" rx="4"
+        fill="rgba(8,20,45,0.8)" stroke="${n.color}" stroke-width="1" opacity="0.9"/>
+      <text x="${n.x}" y="${n.y + 5}" text-anchor="middle" fill="${n.color}"
+        font-family="Rajdhani,sans-serif" font-size="${isTop?9:8}" font-weight="600">${n.label}</text>
+    `;
+    // Glow
+    html += `<circle cx="${n.x}" cy="${n.y}" r="${isTop?6:4}" fill="${n.color}" opacity="0.15"/>`;
+  });
+  svg.innerHTML = html;
+}
+
+/* ====================================================
+   BIZ CARD TILT
+   ==================================================== */
+function initCardTilt() {
+  document.querySelectorAll('.biz-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width;
+      const y = (e.clientY - rect.top) / rect.height;
+      card.style.transform = `translateY(-8px) rotateY(${(x-0.5)*8}deg) rotateX(${(0.5-y)*6}deg) scale(1.02)`;
+      card.style.setProperty('--mx', x*100+'%');
+      card.style.setProperty('--my', y*100+'%');
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  });
+}
+
+/* ====================================================
+   STUDY TABS
+   ==================================================== */
+function switchTab(id) {
+  document.querySelectorAll('.study-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.study-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  event.target.classList.add('active');
+  // Trigger progress bar animations for newly visible panel
+  setTimeout(animateProgressBars, 100);
+}
+
+/* ====================================================
+   HAMBURGER MENU
+   ==================================================== */
+document.getElementById('hamburger').addEventListener('click', () => {
+  document.getElementById('mobile-menu').classList.toggle('open');
+});
+document.querySelectorAll('.mobile-menu a').forEach(a => {
+  a.addEventListener('click', () => {
+    document.getElementById('mobile-menu').classList.remove('open');
+  });
+});
+
+/* ====================================================
+   CONTACT FORM
+   ==================================================== */
+function handleFormSubmit(btn) {
+  btn.textContent = '✓ MESSAGE TRANSMITTED';
+  btn.style.background = 'linear-gradient(135deg, #006600, #00aa00)';
+  setTimeout(() => {
+    btn.textContent = 'TRANSMIT MESSAGE →';
+    btn.style.background = '';
+  }, 3000);
+}
+
+/* ====================================================
+   INIT
+   ==================================================== */
+function initAnimations() {
+  initParticles();
+  animateParticles();
+  type();
+  drawOrgChart();
+  initCardTilt();
+  checkReveal();
+  animateCounters();
+  animateProgressBars();
+}
+
+// Also run on scroll for counters
+window.addEventListener('scroll', animateCounters);
+</script>
+
+</body>
+</html>
